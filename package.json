@@ -17,7 +17,8 @@
   "dependencies": {},
   "devDependencies": {
     "mocha": "*",
-    "chai": "*"
+    "chai": "*",
+    "folio": "0.2.x"
   },
   "optionalDependencies": {}
 }
