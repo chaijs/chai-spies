@@ -2,7 +2,7 @@
 
 This is a addon plugin for the [chai](http://github.com/logicalparadox/chai) assertion library. It provides the 
 most basic function spy ability and tests. Though useful for small modules, you are probably going to want something
-more robust. Check out [jack]() for a full featured mock/stub/spy assertion library for use with chai.
+more robust. Check out [jack](http://github.com/vesln/jack) for a full featured mock/stub/spy assertion library for use with chai.
 
 This library is primarily meant to serve as a starting point for anyone interested in developing chai plugins. If
 developing a module, you are welcome to use this as a starting point. I also encourage the use of the compile
@@ -21,7 +21,7 @@ Chai spies are available on npm.
 Include `chai-spies.js` after including `chai.js`. 
 
 ```html
-<script src="chia-spies.js"></script>
+<script src="chai-spies.js"></script>
 ```
 
 ## Plug In
@@ -45,7 +45,7 @@ var should = chai.should()
 
 If you are developing an addon for chai, one thing you might find useful is the contents of the `support` folder.
 This directly contains everything that is needed to package all js files in a directory for browser use. Provided
-there are no external dependancies, everything will be packaged and wrapped with a CommonJS `require` style loader
+there are no external dependencies, everything will be packaged and wrapped with a CommonJS `require` style loader
 by [folio](https://github.com/logicalparadox/folio), a small JS packaging tool. Please consult the comments in `support/compile.js`.
 
 ## Chai Spies Api Reference
