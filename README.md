@@ -2,7 +2,7 @@
 
 This is a addon plugin for the [chai](http://github.com/logicalparadox/chai) assertion library. It provides the 
 most basic function spy ability and tests. Though useful for small modules, you are probably going to want something
-more robust. Check out [jack]() for a full featured mock/stub/spy assertion library for use with chai.
+more robust. Check out [jack](http://github.com/vesln/jack) for a full featured mock/stub/spy assertion library for use with chai.
 
 This library is primarily meant to serve as a starting point for anyone interested in developing chai plugins. If
 developing a module, you are welcome to use this as a starting point. I also encourage the use of the compile
