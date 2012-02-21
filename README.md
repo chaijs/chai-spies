@@ -21,7 +21,7 @@ Chai spies are available on npm.
 Include `chai-spies.js` after including `chai.js`. 
 
 ```html
-<script src="chia-spies.js"></script>
+<script src="chai-spies.js"></script>
 ```
 
 ## Plug In
@@ -45,7 +45,7 @@ var should = chai.should()
 
 If you are developing an addon for chai, one thing you might find useful is the contents of the `support` folder.
 This directly contains everything that is needed to package all js files in a directory for browser use. Provided
-there are no external dependancies, everything will be packaged and wrapped with a CommonJS `require` style loader
+there are no external dependencies, everything will be packaged and wrapped with a CommonJS `require` style loader
 by [folio](https://github.com/logicalparadox/folio), a small JS packaging tool. Please consult the comments in `support/compile.js`.
 
 ## Chai Spies Api Reference
