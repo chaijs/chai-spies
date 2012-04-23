@@ -11,6 +11,10 @@ describe('Chai Spies', function () {
   it('should know when obj is a spy', function () {
     var spy = chai.spy();
     spy.should.be.spy;
+
+    (function () {
+      'hello'.should.be.a.spy;
+    }).should.throw(chai.AssertionError);
   });
 
   it('should know when a spy has been called', function () {
@@ -18,18 +22,18 @@ describe('Chai Spies', function () {
     spy.should.be.spy;
     spy.__spy.called.should.be.false;
     spy();
-    spy.should.have.been.called;
+    spy.should.have.been.called();
     (function () {
-      spy.should.have.been.not_called;
+      spy.should.have.not.been.called();
     }).should.throw(chai.AssertionError);
   });
 
   it('should know hwen a spy has not been called', function () {
     var spy = chai.spy();
     spy.should.be.spy;
-    spy.should.be.not_called;
+    spy.should.have.not.been.called();
     (function () {
-      spy.should.have.been.called;
+      spy.should.have.been.called();
     }).should.throw(chai.AssertionError);
   });
 
@@ -40,9 +44,11 @@ describe('Chai Spies', function () {
     spy2();
     spy2();
     spy1.should.have.been.called.once;
+
     (function () {
       spy2.should.have.been.called.once;
     }).should.throw(chai.AssertionError);
+
     (function () {
       spy1.should.have.not.been.called.once;
     }).should.throw(chai.AssertionError);
@@ -77,17 +83,17 @@ describe('Chai Spies', function () {
     }).should.throw(chai.AssertionError);
   });
 
-  it('should know when a spy has been called min n times', function () {
+  it('should know when a spy has been called above n times', function () {
     var spy = chai.spy();
     spy();
     spy();
-    spy.should.have.been.called.min(2);
-    spy.should.have.been.called.min(1);
+    spy.should.have.been.called.above(1);
+    spy.should.have.been.called.gt(0);
     (function () {
-      spy.should.have.been.called.min(3);
+      spy.should.have.been.called.above(2);
     }).should.throw(chai.AssertionError);
     (function () {
-      spy.should.not.have.been.called.min(2);
+      spy.should.not.have.been.called.above(1);
     }).should.throw(chai.AssertionError);
   });
 
@@ -96,13 +102,13 @@ describe('Chai Spies', function () {
     spy();
     spy();
     spy();
-    spy.should.have.been.called.max(3);
-    spy.should.have.been.called.max(4);
+    spy.should.have.been.called.below(4);
+    spy.should.have.not.been.called.lt(3);
     (function () {
-      spy.should.have.been.called.max(2);
+      spy.should.have.been.called.below(2);
     }).should.throw(chai.AssertionError);
     (function () {
-      spy.should.not.have.been.called.max(4);
+      spy.should.not.have.been.called.below(4);
     }).should.throw(chai.AssertionError);
   });
 });
