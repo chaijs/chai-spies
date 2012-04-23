@@ -59,10 +59,11 @@ require.register("spy", function (module, exports, require) {
  * We are going to export a function that can be used through chai
  */
 
-module.exports = function (chai) {
+module.exports = function (chai, _) {
   // Easy access
   var Assertion = chai.Assertion
-    , i = chai.inspect
+    , flag = _.flag
+    , i = _.inspect
 
   /**
    * # chai.spy (function)
@@ -110,14 +111,13 @@ module.exports = function (chai) {
    * @api public
    */
 
-  Object.defineProperty(Assertion.prototype, 'spy',
-    { get: function () {
-        this.assert(
-            undefined !== this.obj.__spy
-          , 'expected ' + this.inspect + ' to be a stub'
-          , 'expected ' + this.inspect + ' to not be a stub');
-        return this;
-      }
+  _.addProperty(Assertion, 'spy', function () {
+    var obj = flag(this, 'object');
+    this.assert(
+        undefined !== obj.__spy
+      , 'expected #{this} to be a spy'
+      , 'expected #{this} to not be a spy');
+    return this;
   });
 
   /**
@@ -131,42 +131,23 @@ module.exports = function (chai) {
 
   Object.defineProperty(Assertion.prototype, 'called',
     { get: function () {
-        new Assertion(this.obj).to.be.spy;
-        var spy = this.obj.__spy;
+        var assert = function () {
+          var obj = flag(this, 'object');
+          new Assertion(obj).to.be.spy;
 
-        if (!this.negate) {
           this.assert(
-              spy.called === true
-            , 'expected spy to have been called'
-            , 'expected spy to not have been called'
+              obj.__spy.called === true
+            , 'expected #{this} to have been called'
+            , 'expected #{this} to not have been called'
           );
-        }
-        return this;
+
+          return this;
+        };
+
+        assert.__proto__ = this;
+        return assert;
       }
-  });
-
-  /**
-   * # not_called
-   *
-   * Assert that a spy has not been called. Does not negate.
-   *
-   * @api public
-   */
-
-  Object.defineProperty(Assertion.prototype, 'not_called',
-    { get: function () {
-        new Assertion(this.obj).to.be.spy;
-        var spy = this.obj.__spy;
-
-        if (!this.negate) {
-          this.assert(
-              spy.called === false
-            , 'expected spy to have been called'
-            , 'expected spy to not have been called'
-          );
-        }
-        return this;
-      }
+    , configurable: true
   });
 
   /**
@@ -177,16 +158,18 @@ module.exports = function (chai) {
    * @api public
    */
 
-  Object.defineProperty(Assertion.prototype, 'once',
-    { get: function () {
-        new Assertion(this.obj).to.be.spy;
-        var spy = this.obj.__spy;
-        this.assert(
-            spy.calls.length == 1
-          , 'expected spy to have been called once but got ' + i(spy.calls.length)
-          , 'expected spy to not have been called once' )
-        return this;
-      }
+  _.addProperty(Assertion, 'once', function () {
+    var obj = flag(this, 'object');
+    new Assertion(obj).to.be.spy;
+
+    this.assert(
+        obj.__spy.calls.length === 1
+      , 'expected #{this} to have been called once but got #{act}'
+      , 'expected #{this} to not have been called once'
+      , 1
+      , obj.__spy.calls.length );
+
+    return this;
   });
 
   /**
@@ -197,16 +180,19 @@ module.exports = function (chai) {
    * @api public
    */
 
-  Object.defineProperty(Assertion.prototype, 'twice',
-    { get: function () {
-        new Assertion(this.obj).to.be.spy;
-        var spy = this.obj.__spy;
-        this.assert(
-            spy.calls.length == 2
-          , 'expected spy to have been called twice but got ' + i(spy.calls.length)
-          , 'expected spy to not have been called twice' )
-        return this;
-      }
+  _.addProperty(Assertion, 'twice', function () {
+    var obj = flag(this, 'object');
+    new Assertion(obj).to.be.spy;
+
+    this.assert(
+        obj.__spy.calls.length === 2
+      , 'expected #{this} to have been called once but got #{act}'
+      , 'expected #{this} to not have been called once'
+      , 2
+      , obj.__spy.calls.length
+    );
+
+    return this;
   });
 
   /**
@@ -218,53 +204,86 @@ module.exports = function (chai) {
    * @api public
    */
 
-  Assertion.prototype.exactly = function (n) {
-    new Assertion(this.obj).to.be.spy;
-    var spy = this.obj.__spy;
+  _.addMethod(Assertion, 'exactly', function (n) {
+    var obj = flag(this, 'object');
+    new Assertion(obj).to.be.spy;
+
     this.assert(
-        spy.calls.length == n
-      , 'expected spy to have been called ' + i(n) + ' times but got ' + i(spy.calls.length)
-      , 'expected spy to not have been called ' + i(n) + ' times' );
+        obj.__spy.calls.length === n
+      , 'expected #{this} to have been called #{exp} times but got #{act}'
+      , 'expected #{this} to not have been called #{exp} times'
+      , n
+      , obj.__spy.calls.length
+    );
+
     return this;
-  };
+  });
 
   /**
-   * # min (n)
+   * # gt (n)
    *
-   * Assert that a spy has been called minimum of `n` times.
+   * Assert that a spy has been called more than `n` times.
    *
    * @param {Number} n times
    * @api public
    */
 
-  Assertion.prototype.min = function (n) {
-    new Assertion(this.obj).to.be.spy;
-    var spy = this.obj.__spy;
-    this.assert(
-        spy.calls.length >= n
-      , 'expected spy to have been called minimum of ' + i(n) + ' times but got ' + i(spy.calls.length)
-      , 'expected spy to have been called less than ' + i(n) + ' times but got ' + i(spy.calls.length) );
-    return this;
-  };
+  function above (_super) {
+    return function (n) {
+      var obj = flag(this, 'object');
+      if ('undefined' !== obj.__spy) {
+        new Assertion(obj).to.be.spy;
+
+        this.assert(
+            obj.__spy.calls.length > n
+          , 'expected #{this} to have been called more than #{exp} times but got #{act}'
+          , 'expected #{this} to have been called no more than than #{exp} times but got #{act}'
+          , n
+          , obj.__spy.calls.length
+        );
+
+        return this;
+      } else {
+        return _super.apply(this, arguments);
+      }
+    }
+  }
+
+  _.overwriteMethod(Assertion, 'above', above);
+  _.overwriteMethod(Assertion, 'gt', above);
 
   /**
-   * # max (n)
+   * # lt (n)
    *
-   * Assert that a spy has been called a maximim of `n` times.
+   * Assert that a spy has been called less than `n` times.
    *
    * @param {Number} n times
    * @api public
    */
 
-  Assertion.prototype.max = function (n) {
-    new Assertion(this.obj).to.be.spy;
-    var spy = this.obj.__spy;
-    this.assert(
-        spy.calls.length <= n
-      , 'expected spy to have been called maximum of ' + i(n) + ' times but got ' + i(spy.calls.length)
-      , 'expected spy to have been called more than ' + i(n) + ' times but got ' + i(spy.calls.length) );
-    return this;
-  };
+  function below (_super) {
+    return function (n) {
+      var obj = flag(this, 'object');
+      if ('undefined' !== obj.__spy) {
+        new Assertion(obj).to.be.spy;
+
+        this.assert(
+            obj.__spy.calls.length <  n
+          , 'expected #{this} to have been called less than #{exp} times but got #{act}'
+          , 'expected #{this} to have been called at least #{exp} times but got #{act}'
+          , n
+          , obj.__spy.calls.length
+        );
+
+        return this;
+      } else {
+        return _super.apply(this, arguments);
+      }
+    }
+  }
+
+  _.overwriteMethod(Assertion, 'below', below);
+  _.overwriteMethod(Assertion, 'lt', below);
 };
 
 }); // module spy
