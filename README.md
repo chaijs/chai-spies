@@ -20,7 +20,7 @@ Chai spies are available on npm.
 
 Include `chai-spies.js` after including `chai.js`. 
 
-```html
+```xml
 <script src="chai-spies.js"></script>
 ```
 
