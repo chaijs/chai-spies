@@ -129,7 +129,7 @@ module.exports = function (chai, _) {
 
   Assertion.addProperty('spy', function () {
     this.assert(
-        undefined !== this._obj.__spy
+        'undefined' !== typeof this._obj.__spy
       , 'expected #{this} to be a spy'
       , 'expected #{this} to not be a spy');
     return this;
@@ -229,7 +229,7 @@ module.exports = function (chai, _) {
 
   function above (_super) {
     return function (n) {
-      if ('undefined' !== this._obj.__spy) {
+      if ('undefined' !== typeof this._obj.__spy) {
         new Assertion(this._obj).to.be.spy;
 
         this.assert(
@@ -259,7 +259,7 @@ module.exports = function (chai, _) {
 
   function below (_super) {
     return function (n) {
-      if ('undefined' !== this._obj.__spy) {
+      if ('undefined' !== typeof this._obj.__spy) {
         new Assertion(this._obj).to.be.spy;
 
         this.assert(

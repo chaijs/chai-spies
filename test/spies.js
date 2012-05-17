@@ -89,6 +89,8 @@ describe('Chai Spies', function () {
     spy();
     spy.should.have.been.called.above(1);
     spy.should.have.been.called.gt(0);
+    (2).should.be.above(1);
+    (2).should.be.gt(1);
     (function () {
       spy.should.have.been.called.above(2);
     }).should.throw(chai.AssertionError);
@@ -104,6 +106,8 @@ describe('Chai Spies', function () {
     spy();
     spy.should.have.been.called.below(4);
     spy.should.have.not.been.called.lt(3);
+    (1).should.be.below(2);
+    (1).should.be.lt(2);
     (function () {
       spy.should.have.been.called.below(2);
     }).should.throw(chai.AssertionError);
