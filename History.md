@@ -1,4 +1,10 @@
 
+0.2.2 / 2012-05-17 
+==================
+
+  * bug - not correctly overwriting above/below
+  * browser build
+
 0.2.1 / 2012-05-17 
 ==================
 
