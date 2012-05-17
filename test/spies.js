@@ -111,4 +111,17 @@ describe('Chai Spies', function () {
       spy.should.not.have.been.called.below(4);
     }).should.throw(chai.AssertionError);
   });
+
+  it('should understand length', function () {
+    var orig = function (a, b) {
+
+    };
+
+    var spy = chai.spy(orig);
+    orig.should.have.length(2);
+    spy.should.have.length(2);
+
+    var spyClean = chai.spy();
+    spyClean.should.have.length(0);
+  });
 });
