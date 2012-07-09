@@ -6,7 +6,7 @@ all: clean
 	@node support/compile.js
 
 clean:
-	@rm chai-spies.js
+	@rm -f chai-spies.js
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
