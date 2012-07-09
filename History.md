@@ -1,4 +1,16 @@
 
+0.2.3 / 2012-07-09 
+==================
+
+  * update folio dep version
+  * one more try
+  * improve amd wrapper
+  * browser build improved wrapper
+  * Merge branch 'refactor/compile'
+  * browser build
+  * use folio for build
+  * cleanup pre-folio
+
 0.2.2 / 2012-05-17 
 ==================
 
