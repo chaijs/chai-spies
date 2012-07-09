@@ -1,14 +1,16 @@
 !function (context, definition) {
-  if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
-    module.exports = definition();
+  if (typeof require === 'function' && typeof exports === 'object' && typeof module === 'object') {
+    module.exports = definition(module, exports);
   } else if (typeof define === 'function' && typeof define.amd  === 'object') {
     define(definition);
   } else {
     if (!context.chai) throw new Error('Chai cannot be found in current scope.');
-    context.chai.use(definition());
+    var mod = {};
+    mod.exports = {};
+    definition.call(mod.exports, mod, mod.exports);
+    context.chai.use(mod.exports);
   }
-}(this, function () {
-  var module = {};
+}(this, function (module, exports) {
 
 
   /*!
@@ -241,5 +243,4 @@
     Assertion.overwriteMethod('lt', below);
   };
 
-  return module.exports;
 });
