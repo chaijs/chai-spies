@@ -24,6 +24,28 @@ describe('Chai Spies', function () {
     });
   });
 
+  describe('textual representation', function() {
+
+    it('should print out nice', function() {
+      chai.spy().toString().should.equal("{ Spy }");
+    });
+    it('should show the name', function() {
+      chai.spy('Nikita').toString().should.equal("{ Spy 'Nikita' }");
+    });
+    it('should expose number of invokations', function() {
+      var spy = chai.spy()
+      spy(); // 1
+      spy(); // 2
+      spy.toString().should.equal("{ Spy, 2 calls }");
+    });
+    it('should expose name and number of invokations', function() {
+      var spy = chai.spy('Nikita')
+      spy(); // 1
+      spy.toString().should.equal("{ Spy 'Nikita', 1 call }");
+    });
+
+  });
+
   it('should invoke the function sent to the spy', function() {
     var spy = chai.spy()
     chai.spy(spy)()
