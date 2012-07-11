@@ -159,6 +159,16 @@ spy.should.not.have.been.called.max(3);
 Tests are written using [mocha](http://github.com/visionmedia/mocha) in the BDD itnerface.
 Node tests can be executed using `make test`. Browser tests can be seen by opening `test/browser/index.html`.
 
+## Contributors
+
+     commits: 42
+     files  : 11
+     authors: 
+        33  Jake Luer               78.6%
+         6  Glenn Jorde             14.3%
+         2  JamesMaroney            4.8%
+         1  Domenic Denicola        2.4%
+
 ## License
 
 (The MIT License)
