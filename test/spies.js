@@ -28,7 +28,7 @@ describe('Chai Spies', function () {
     }).should.throw(chai.AssertionError);
   });
 
-  it('should know hwen a spy has not been called', function () {
+  it('should know when a spy has not been called', function () {
     var spy = chai.spy();
     spy.should.be.spy;
     spy.should.have.not.been.called();
