@@ -45,8 +45,13 @@
      * @api public
      */
 
-    chai.spy = function (fn) {
-      if (!fn) fn = function () {};
+    chai.spy = function (name, fn) {
+      if (typeof name === 'function') {
+        fn = name;
+        name = undefined;
+      }
+
+      fn = fn || function () {};
 
       function makeProxy (length, fn) {
         switch (length) {
@@ -75,6 +80,7 @@
       proxy.__spy = {
           calls: []
         , called: false
+        , name: name
       };
 
       return proxy;
@@ -243,5 +249,4 @@
     Assertion.overwriteMethod('below', below);
     Assertion.overwriteMethod('lt', below);
   };
-
 });
