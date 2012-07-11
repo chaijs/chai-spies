@@ -1,4 +1,17 @@
 
+0.3.0 / 2012-07-11 
+==================
+
+  * Merge branch 'feature/human-stringified' of git://github.com/tregusti/chai-spies into tregusti-feature/human-stringified
+  * Merge pull request #3 from tregusti/feature/spyname
+  * Merge pull request #2 from tregusti/feature/wording
+  * Make spies print out prettier
+  * Add possibility to specify a name of a spy
+  * Documentation typo fix.
+  * More typo fixes
+  * Fix type in docs
+  * Corrected textual message
+
 0.2.3 / 2012-07-09 
 ==================
 
