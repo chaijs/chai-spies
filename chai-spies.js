@@ -77,6 +77,16 @@
       });
 
       proxy.prototype = fn.prototype;
+      proxy.toString = function toString() {
+        var l = this.__spy.calls.length;
+        var s = "{ Spy";
+        if (this.__spy.name)
+          s += " '" + this.__spy.name + "'";
+        if (l > 0)
+          s += ", " + l + " call" + (l > 1 ? 's' : '');
+        s += " }";
+        return s;
+      };
       proxy.__spy = {
           calls: []
         , called: false
@@ -101,8 +111,8 @@
     Assertion.addProperty('spy', function () {
       this.assert(
           'undefined' !== typeof this._obj.__spy
-        , 'expected #{this} to be a spy'
-        , 'expected #{this} to not be a spy');
+        , 'expected ' + this._obj + ' to be a spy'
+        , 'expected ' + this._obj + ' to not be a spy');
       return this;
     });
 
@@ -121,8 +131,8 @@
 
         this.assert(
             this._obj.__spy.called === true
-          , 'expected #{this} to have been called'
-          , 'expected #{this} to not have been called'
+          , 'expected ' + this._obj + ' to have been called'
+          , 'expected ' + this._obj + ' to not have been called'
         );
 
         return this;
@@ -144,8 +154,8 @@
       new Assertion(this._obj).to.be.spy;
       this.assert(
           this._obj.__spy.calls.length === 1
-        , 'expected #{this} to have been called once but got #{act}'
-        , 'expected #{this} to not have been called once'
+        , 'expected ' + this._obj + ' to have been called once but got #{act}'
+        , 'expected ' + this._obj + ' to not have been called once'
         , 1
         , this._obj.__spy.calls.length );
     });
@@ -162,8 +172,8 @@
       new Assertion(this._obj).to.be.spy;
       this.assert(
           this._obj.__spy.calls.length === 2
-        , 'expected #{this} to have been called twice but got #{act}'
-        , 'expected #{this} to not have been called twice'
+        , 'expected ' + this._obj + ' to have been called once but got #{act}'
+        , 'expected ' + this._obj + ' to not have been called once'
         , 2
         , this._obj.__spy.calls.length
       );
@@ -182,8 +192,8 @@
       new Assertion(this._obj).to.be.spy;
       this.assert(
           this._obj.__spy.calls.length === n
-        , 'expected #{this} to have been called #{exp} times but got #{act}'
-        , 'expected #{this} to not have been called #{exp} times'
+        , 'expected ' + this._obj + ' to have been called #{exp} times but got #{act}'
+        , 'expected ' + this._obj + ' to not have been called #{exp} times'
         , n
         , this._obj.__spy.calls.length
       );
@@ -205,8 +215,8 @@
 
           this.assert(
               this._obj.__spy.calls.length > n
-            , 'expected #{this} to have been called more than #{exp} times but got #{act}'
-            , 'expected #{this} to have been called no more than than #{exp} times but got #{act}'
+            , 'expected ' + this._obj + ' to have been called more than #{exp} times but got #{act}'
+            , 'expected ' + this._obj + ' to have been called no more than than #{exp} times but got #{act}'
             , n
             , this._obj.__spy.calls.length
           );
@@ -235,8 +245,8 @@
 
           this.assert(
               this._obj.__spy.calls.length <  n
-            , 'expected #{this} to have been called less than #{exp} times but got #{act}'
-            , 'expected #{this} to have been called at least #{exp} times but got #{act}'
+            , 'expected ' + this._obj + ' to have been called less than #{exp} times but got #{act}'
+            , 'expected ' + this._obj + ' to have been called at least #{exp} times but got #{act}'
             , n
             , this._obj.__spy.calls.length
           );
@@ -249,4 +259,5 @@
     Assertion.overwriteMethod('below', below);
     Assertion.overwriteMethod('lt', below);
   };
+
 });
