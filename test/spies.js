@@ -8,6 +8,28 @@ var should = chai.should();
 
 describe('Chai Spies', function () {
 
+  describe('name', function() {
+    it('defaults to undefined', function() {
+      chai.expect(chai.spy().__spy.name).to.equal(undefined);
+    });
+
+    it('exposes the name', function() {
+      chai.expect(chai.spy('007').__spy.name).to.equal('007');
+    });
+
+    it('executes the function sent to the spy', function() {
+      var spy = chai.spy()
+      chai.spy('007', spy)();
+      spy.should.have.been.called.once
+    });
+  });
+
+  it('should invoke the function sent to the spy', function() {
+    var spy = chai.spy()
+    chai.spy(spy)()
+    spy.should.have.been.called.once
+  });
+
   it('should know when obj is a spy', function () {
     var spy = chai.spy();
     spy.should.be.spy;
@@ -28,7 +50,7 @@ describe('Chai Spies', function () {
     }).should.throw(chai.AssertionError);
   });
 
-  it('should know hwen a spy has not been called', function () {
+  it('should know when a spy has not been called', function () {
     var spy = chai.spy();
     spy.should.be.spy;
     spy.should.have.not.been.called();
