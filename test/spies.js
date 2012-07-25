@@ -46,6 +46,12 @@ describe('Chai Spies', function () {
 
   });
 
+  it('should return the value of the mock function', function() {
+    var spy = chai.spy(function() { return 'Jack Bauer'; });
+    var jack = spy();
+    chai.expect(jack).to.equal('Jack Bauer');
+  });
+
   it('should invoke the function sent to the spy', function() {
     var spy = chai.spy()
     chai.spy(spy)()
