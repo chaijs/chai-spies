@@ -73,7 +73,7 @@
         var args = Array.prototype.slice.call(arguments);
         proxy.__spy.calls.push(args);
         proxy.__spy.called = true;
-        fn.apply(this, args);
+        return fn.apply(this, args);
       });
 
       proxy.prototype = fn.prototype;

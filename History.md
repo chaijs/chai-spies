@@ -1,4 +1,11 @@
 
+0.4.0 / 2012-10-09 
+==================
+
+  * Merge pull request #5 from tregusti/feature/return-value
+  * Make spies have a return value.
+  * credit where due
+
 0.3.0 / 2012-07-11 
 ==================
 
