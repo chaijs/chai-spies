@@ -167,15 +167,68 @@ describe('Chai Spies', function () {
   });
 
   it('should understand length', function () {
-    var orig = function (a, b) {
-
-    };
-
-    var spy = chai.spy(orig);
+    var orig = function (a, b) {}
+      , spy = chai.spy(orig)
+      , spyClean = chai.spy();
     orig.should.have.length(2);
     spy.should.have.length(2);
-
-    var spyClean = chai.spy();
     spyClean.should.have.length(0);
+  });
+
+  describe('.with', function () {
+    it('should not interfere chai with' ,function () {
+      (1).should.be.with.a('number');
+    });
+  });
+
+  describe('.with(arg, ...)', function () {
+    it('should pass when called with an argument', function () {
+      var spy = chai.spy();
+      spy(1);
+      spy(2);
+      spy(3);
+      spy.should.have.been.called.with(1);
+      spy.should.have.been.called.with(2);
+      spy.should.have.been.called.with(3);
+      spy.should.not.have.been.called.with(4);
+      (function () {
+        spy.should.have.been.called.with(4);
+      }).should.throw(chai.AssertionError, /have been called with/);
+      (function () {
+        spy.should.have.not.been.called.with(1);
+      }).should.throw(chai.AssertionError, /have not been called with/);
+    });
+
+    it('should pass with called with multiple arguments', function () {
+      var spy = chai.spy();
+      spy(1,2,3);
+      spy(2,4,6);
+      spy(3,6,9);
+      spy.should.have.been.called.with(1,2);
+      spy.should.have.been.called.with(2,4);
+      spy.should.have.been.called.with(3,6);
+      spy.should.have.been.called.with(3,1,2);
+      spy.should.have.been.called.with(6,2,4);
+      spy.should.have.been.called.with(9,3,6);
+      spy.should.not.have.been.called.with(5);
+      spy.should.not.have.been.called.with(1,9);
+      spy.should.not.have.been.called.with(9,1,4);
+      (function () {
+        spy.should.have.been.called.with(1,2,5);
+      }).should.throw(chai.AssertionError, /have been called with/);
+      (function () {
+        spy.should.have.not.been.called.with(3,6,9);
+      }).should.throw(chai.AssertionError, /have not been called with/);
+    });
+  });
+
+  describe('.always.with(arg, ...)', function () {
+    it('should pass when called with an argument', function () {
+
+    });
+
+    it('should pass when called with multiple arguments', function () {
+
+    });
   });
 });
