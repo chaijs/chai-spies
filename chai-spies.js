@@ -125,22 +125,32 @@
      * @api public
      */
 
-    Assertion.addProperty('called', function () {
-      var assert = function () {
-        new Assertion(this._obj).to.be.spy;
+    function assertCalled (n) {
+      new Assertion(this._obj).to.be.spy;
+      var spy = this._obj.__spy;
 
+      if (n) {
         this.assert(
-            this._obj.__spy.called === true
-          , 'expected ' + this._obj + ' to have been called'
-          , 'expected ' + this._obj + ' to not have been called'
+            spy.calls.length === n
+          , 'expected #{this} to have been called #{exp} but got #{act}'
+          , 'expected #{this} to have not been called #{exp}'
+          , spy.calls.length
+          , n
         );
+      } else {
+        this.assert(
+            spy.called === true
+          , 'expected #{this} to have been called'
+          , 'expected #{this} to not have been called'
+        );
+      }
+    }
 
-        return this;
-      };
+    function assertCalledChain () {
+      new Assertion(this._obj).to.be.spy;
+    }
 
-      assert.__proto__ = this;
-      return assert;
-    });
+    Assertion.addChainableMethod('called', assertCalled, assertCalledChain);
 
     /**
      * # once
@@ -180,6 +190,71 @@
     });
 
     /**
+     * ### .with
+     *
+     */
+
+    function assertWith () {
+      new Assertion(this._obj).to.be.spy;
+      var args = [].slice.call(arguments, 0)
+        , calls = this._obj.__spy.calls
+        , always = _.flag(this, 'spy always')
+        , passed;
+
+      if (always) {
+        passed = 0
+        calls.forEach(function (call) {
+          var found = 0;
+          args.forEach(function (arg) {
+            for (var i = 0; i < call.length; i++) {
+              if (_.eql(call[i], arg)) found++;
+            }
+          });
+          if (found === args.length) passed++;
+        });
+
+        this.assert(
+            passed === calls.length
+          , 'expected ' + this._obj + ' to have been always called with #{exp} but got ' + passed + ' out of ' + calls.length
+          , 'expected ' + this._his + ' to have not always been called with #{exp}'
+          , args
+        );
+      } else {
+        passed = 0;
+        calls.forEach(function (call) {
+          var found = 0;
+          args.forEach(function (arg) {
+            for (var i = 0; i < call.length; i++) {
+              if (_.eql(call[i], arg)) found++;
+            }
+          });
+          if (found === args.length) passed++;
+        });
+
+        this.assert(
+            passed > 0
+          , 'expected ' + this._obj + ' to have been called with #{exp}'
+          , 'expected ' + this._his + ' to have not been called with #{exp} but got ' + passed + ' times'
+          , args
+        );
+      }
+    }
+
+    function assertWithChain () {
+      if ('undefined' !== this._obj.__spy) {
+        _.flag(this, 'spy with', true);
+      }
+    }
+
+    Assertion.addChainableMethod('with', assertWith, assertWithChain);
+
+    Assertion.addProperty('always', function () {
+      if ('undefined' !== this._obj.__spy) {
+        _.flag(this, 'spy always', true);
+      }
+    });
+
+    /**
      * # exactly (n)
      *
      * Assert that a spy has been called exactly `n` times.
@@ -188,15 +263,49 @@
      * @api public
      */
 
-    Assertion.addMethod('exactly', function (n) {
+    Assertion.addMethod('exactly', function () {
       new Assertion(this._obj).to.be.spy;
-      this.assert(
-          this._obj.__spy.calls.length === n
-        , 'expected ' + this._obj + ' to have been called #{exp} times but got #{act}'
-        , 'expected ' + this._obj + ' to not have been called #{exp} times'
-        , n
-        , this._obj.__spy.calls.length
-      );
+      var always = _.flag(this, 'spy always')
+        , _with = _.flag(this, 'spy with')
+        , args = [].slice.call(arguments, 0)
+        , calls = this._obj.__spy.calls
+        , passed;
+
+      if (always && _with) {
+        passed = 0
+        calls.forEach(function (call) {
+          if (call.length !== args.length) return;
+          if (_.eql(call, args)) passed++;
+        });
+
+        this.assert(
+            passed === calls.length
+          , 'expected ' + this._obj + ' to have been always called with exactly #{exp} but got ' + passed + ' out of ' + calls.length
+          , 'expected ' + this._obj + ' to have not always been called with exactly #{exp}'
+          , args
+        );
+      } else if (_with) {
+        passed = 0;
+        calls.forEach(function (call) {
+          if (call.length !== args.length) return;
+          if (_.eql(call, args)) passed++;
+        });
+
+        this.assert(
+            passed > 0
+          , 'expected ' + this._obj + ' to have been called with exactly #{exp}'
+          , 'expected ' + this._obj + ' to not have been called with exactly #{exp} but got ' + passed + ' times'
+          , args
+        );
+      } else {
+        this.assert(
+            this._obj.__spy.calls.length === args[0]
+          , 'expected ' + this._obj + ' to have been called #{exp} times but got #{act}'
+          , 'expected ' + this._obj + ' to not have been called #{exp} times'
+          , args[0]
+          , this._obj.__spy.calls.length
+        );
+      }
     });
 
     /**
