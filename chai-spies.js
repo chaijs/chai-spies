@@ -132,16 +132,16 @@
       if (n) {
         this.assert(
             spy.calls.length === n
-          , 'expected #{this} to have been called #{exp} but got #{act}'
-          , 'expected #{this} to have not been called #{exp}'
-          , spy.calls.length
+          , 'expected ' + this._obj + ' to have been called #{exp} but got #{act}'
+          , 'expected ' + this._obj + ' to have not been called #{exp}'
           , n
+          , spy.calls.length
         );
       } else {
         this.assert(
             spy.called === true
-          , 'expected #{this} to have been called'
-          , 'expected #{this} to not have been called'
+          , 'expected ' + this._obj + ' to have been called'
+          , 'expected ' + this._ojb + ' to not have been called'
         );
       }
     }
