@@ -1,4 +1,13 @@
 
+0.5.0 / 2012-11-14 
+==================
+
+  * Merge branch 'feature/arguments'
+  * browser build
+  * tests for argument call assertions
+  * add assertions for argument checking
+  * add assertion: .with() / .with
+
 0.4.0 / 2012-10-09 
 ==================
 
