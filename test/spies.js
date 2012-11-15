@@ -224,11 +224,101 @@ describe('Chai Spies', function () {
 
   describe('.always.with(arg, ...)', function () {
     it('should pass when called with an argument', function () {
-
+      var spy = chai.spy();
+      spy(1);
+      spy(1, 2);
+      spy(3, 1);
+      spy(4, 5, 1);
+      spy.should.have.been.always.called.with(1);
+      spy.should.not.always.have.been.called.with(2);
+      spy.should.not.always.have.been.called.with(8);
+      (function () {
+        spy.should.have.been.always.called.with(2);
+      }).should.throw(chai.AssertionError, /to have been always called with/);
+      (function () {
+        spy.should.not.have.been.always.called.with(1);
+      }).should.throw(chai.AssertionError, /to have not always been called with/);
     });
 
     it('should pass when called with multiple arguments', function () {
+      var spy = chai.spy();
+      spy(1,2);
+      spy(2,1);
+      spy(1,3,2);
+      spy(2,5,1);
+      spy.should.have.been.always.called.with(1,2);
+      spy.should.not.always.have.been.called.with(2,3);
+      spy.should.not.always.have.been.called.with(4,6);
+      (function () {
+        spy.should.have.been.always.called.with(2,3);
+      }).should.throw(chai.AssertionError, /to have been always called with/);
+      (function () {
+        spy.should.not.have.been.always.called.with(1,2);
+      }).should.throw(chai.AssertionError, /to have not always been called with/);
+    });
+  });
 
+  describe('.with.exactly(arg, ...)', function () {
+    it('should pass when called with an argument', function () {
+      var spy = chai.spy();
+      spy(1);
+      spy(1, 2);
+      spy.should.have.been.called.with.exactly(1);
+      spy.should.have.not.been.called.with.exactly(2);
+      (function () {
+        spy.should.have.been.called.with.exactly(2);
+      }).should.throw(chai.AssertionError, /to have been called with exactly/);
+      (function () {
+        spy.should.have.not.been.called.with.exactly(1);
+      }).should.throw(chai.AssertionError, /to not have been called with exactly/);
+    });
+
+    it('shoud pass when called with multiple arguments', function () {
+      var spy = chai.spy();
+      spy(1);
+      spy(3, 2);
+      spy.should.have.been.called.with.exactly(3,2);
+      spy.should.have.not.been.called.with.exactly(2,3);
+      (function () {
+        spy.should.have.been.called.with.exactly(2,3);
+      }).should.throw(chai.AssertionError, /to have been called with exactly/);
+      (function () {
+        spy.should.have.not.been.called.with.exactly(3,2);
+      }).should.throw(chai.AssertionError, /to not have been called with exactly/);
+    });
+  });
+
+  describe('.always.with.exactly(arg, ...)', function () {
+    it('should pass when called with an argument', function () {
+      var spy = chai.spy();
+      spy(3);
+      spy(3);
+      spy.should.have.always.been.called.with.exactly(3);
+
+      var spy2 = chai.spy();
+      spy2(3);
+      spy2(4);
+      spy2.should.have.not.always.been.called.with.exactly(3);
+
+      (function () {
+        spy2.should.have.been.always.called.with.exactly(3);
+      }).should.throw(chai.AssertionError, /to have been always called with exactly/);
+    });
+
+    it('should pass when called with multiple arguments', function () {
+      var spy = chai.spy();
+      spy(3,4);
+      spy(3,4);
+      spy.should.have.always.been.called.with.exactly(3,4);
+
+      var spy2 = chai.spy();
+      spy2(3);
+      spy2(4,4);
+      spy2.should.have.not.always.been.called.with.exactly(4,4);
+
+      (function () {
+        spy2.should.have.been.always.called.with.exactly(4,4);
+      }).should.throw(chai.AssertionError, /to have been always called with exactly/);
     });
   });
 });
