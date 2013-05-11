@@ -1,0 +1,17 @@
+{
+  "name": "chai-spies",
+  "repo": "chaijs/chai-spies",
+  "version": "0.5.1",
+  "description": "Spies for the Chai assertion library.",
+  "license": "MIT",
+  "keywords": [
+    "test",
+    "spy",
+    "chai"
+  ],
+  "dependencies": {
+    "chaijs/chai": "*"
+  },
+  "scripts": ["lib/spy.js"],
+  "main": "lib/spy.js"
+}
