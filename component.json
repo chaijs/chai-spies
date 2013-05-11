@@ -12,6 +12,6 @@
   "dependencies": {
     "chaijs/chai": "*"
   },
-  "scripts": ["chai-spies.js"],
-  "main": "chai-spies.js"
+  "scripts": ["lib/spy.js"],
+  "main": "lib/spy.js"
 }
