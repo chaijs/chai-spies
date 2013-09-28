@@ -1,6 +1,6 @@
 # Chai Spies
 
-This is a addon plugin for the [chai](http://github.com/logicalparadox/chai) assertion library. It provides the 
+This is a addon plugin for the [chai](http://github.com/logicalparadox/chai) assertion library. It provides the
 most basic function spy ability and tests. Though useful for small modules, you are probably going to want something
 more robust. Check out [jack](http://github.com/vesln/jack) for a full featured mock/stub/spy assertion library for use with chai.
 
@@ -18,7 +18,7 @@ Chai spies are available on npm.
 
 #### Browser
 
-Include `chai-spies.js` after including `chai.js`. 
+Include `chai-spies.js` after including `chai.js`.
 
 ```xml
 <script src="chai-spies.js"></script>
@@ -38,7 +38,7 @@ var chai = require('chai')
 chai.use(spies);
 
 var should = chai.should()
-  , expect = chai.expect; 
+  , expect = chai.expect;
 ```
 
 ## Building for the Browser
@@ -86,18 +86,11 @@ spy.should.be.spy;
 Assert that a spy has been called. Negation passes through.
 
 ```js
-expect(spy).to.have.been.called;
-spy.should.have.been.called;
+expect(spy).to.have.been.called();
+spy.should.have.been.called();
 ```
 
-#### .not_called
-
-Assert that a spy has not been called. 
-
-```js
-expect(spy).to.have.been.not_called;
-spy.should.have.been.not_called;
-```
+Note that `called` can be used as a chaniable method.
 
 #### .once
 
@@ -154,7 +147,7 @@ spy.should.have.been.called.max(3);
 spy.should.not.have.been.called.max(3);
 ```
 
-## Tests 
+## Tests
 
 Tests are written using [mocha](http://github.com/visionmedia/mocha) in the BDD itnerface.
 Node tests can be executed using `make test`. Browser tests can be seen by opening `test/browser/index.html`.
@@ -163,7 +156,7 @@ Node tests can be executed using `make test`. Browser tests can be seen by openi
 
      commits: 42
      files  : 11
-     authors: 
+     authors:
         33  Jake Luer               78.6%
          6  Glenn Jorde             14.3%
          2  JamesMaroney            4.8%
