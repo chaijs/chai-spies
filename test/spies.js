@@ -149,7 +149,7 @@ describe('Chai Spies', function () {
     }).should.throw(chai.AssertionError);
   });
 
-  it('should know when a spy has been called max n times', function () {
+  it('should know when a spy has been called below n times', function () {
     var spy = chai.spy();
     spy();
     spy();
@@ -163,6 +163,39 @@ describe('Chai Spies', function () {
     }).should.throw(chai.AssertionError);
     (function () {
       spy.should.not.have.been.called.below(4);
+    }).should.throw(chai.AssertionError);
+  });
+
+  it('should know when a spy has been called at least n times', function () {
+    var spy = chai.spy();
+    spy();
+    spy();
+    spy.should.have.been.called.min(2);
+    spy.should.have.been.called.at.least(1);
+    (2).should.be.at.least(2);
+    (2).should.be.at.least(1);
+    (function () {
+      spy.should.have.been.called.min(3);
+    }).should.throw(chai.AssertionError);
+    (function () {
+      spy.should.not.have.been.called.above(1);
+    }).should.throw(chai.AssertionError);
+  });
+
+  it('should know when a spy has been called at most n times', function () {
+    var spy = chai.spy();
+    spy();
+    spy();
+    spy();
+    spy.should.have.been.called.max(3);
+    spy.should.have.been.called.at.most(4);
+    (1).should.be.at.most(3);
+    (1).should.be.at.most(4);
+    (function () {
+      spy.should.have.been.called.max(2);
+    }).should.throw(chai.AssertionError);
+    (function () {
+      spy.should.not.have.been.called.at.most(3);
     }).should.throw(chai.AssertionError);
   });
 
