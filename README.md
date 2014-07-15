@@ -125,26 +125,47 @@ spy.should.have.been.called.exactly(3);
 spy.should.not.have.been.called.exactly(3);
 ```
 
-#### .min(n)
+#### .min(n) / .at.least(n)
 
 Assert that a spy has been called minimum of `n` times.
 
 ```js
 expect(spy).to.have.been.called.min(3);
-expect(spy).to.not.have.been.called.min(3);
-spy.should.have.been.called.min(3);
+expect(spy).to.not.have.been.called.at.least(3);
+spy.should.have.been.called.at.least(3);
 spy.should.not.have.been.called.min(3);
 ```
 
-#### .max(n)
+#### .max(n) / .at.most(n)
 
 Assert that a spy has been called maximum of `n` times.
 
 ```js
 expect(spy).to.have.been.called.max(3);
-expect(spy).to.not.have.been.called.max(3);
-spy.should.have.been.called.max(3);
+expect(spy).to.not.have.been.called.at.most(3);
+spy.should.have.been.called.at.most(3);
 spy.should.not.have.been.called.max(3);
+```
+#### .above(n) / .gt(n)
+
+Assert that a spy has been called more than `n` times.
+
+```js
+expect(spy).to.have.been.called.above(3);
+expect(spy).to.not.have.been.called.gt(3);
+spy.should.have.been.called.gt(3);
+spy.should.not.have.been.called.above(3);
+```
+
+#### .below(n) / .lt(n)
+
+Assert that a spy has been called fewer than `n` times.
+
+```js
+expect(spy).to.have.been.called.below(3);
+expect(spy).to.not.have.been.called.lt(3);
+spy.should.have.been.called.lt(3);
+spy.should.not.have.been.called.below(3);
 ```
 
 ## Tests
