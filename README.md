@@ -92,6 +92,15 @@ spy.should.have.been.called();
 
 Note that `called` can be used as a chaniable method.
 
+#### .with
+
+Assert that a spy has been called with a given argument.
+
+```js
+expect(spy).to.have.been.called.with('foo');
+spy.should.have.been.called.with('foo');
+```
+
 #### .once
 
 Assert that a spy has been called exactly once.
