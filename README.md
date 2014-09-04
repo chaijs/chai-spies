@@ -179,7 +179,7 @@ spy.should.not.have.been.called.below(3);
 
 ## Tests
 
-Tests are written using [mocha](http://github.com/visionmedia/mocha) in the BDD itnerface.
+Tests are written using [mocha](http://github.com/visionmedia/mocha) in the BDD interface.
 Node tests can be executed using `make test`. Browser tests can be seen by opening `test/browser/index.html`.
 
 ## Contributors
