@@ -1,6 +1,6 @@
 # Chai Spies
 
-This is a addon plugin for the [chai](http://github.com/logicalparadox/chai) assertion library. It provides the
+This is an addon plugin for the [chai](http://github.com/logicalparadox/chai) assertion library. It provides the
 most basic function spy ability and tests. Though useful for small modules, you are probably going to want something
 more robust. Check out [jack](http://github.com/vesln/jack) for a full featured mock/stub/spy assertion library for use with chai.
 
@@ -27,7 +27,7 @@ Include `chai-spies.js` after including `chai.js`.
 ## Plug In
 
 If you are using `chai-spies` in the browser, there is nothing you need to do. It will detect `chai` in the global
-namespace and automagically get used.
+namespace and automatically get used.
 
 If you are using node, here is a useful bit.
 
@@ -90,7 +90,7 @@ expect(spy).to.have.been.called();
 spy.should.have.been.called();
 ```
 
-Note that `called` can be used as a chaniable method.
+Note that `called` can be used as a chainable method.
 
 #### .with
 
@@ -125,7 +125,7 @@ spy.should.not.have.been.called.twice;
 
 #### .exactly(n)
 
-Assert that a spy has been called exactly n times.
+Assert that a spy has been called exactly `n` times.
 
 ```js
 expect(spy).to.have.been.called.exactly(3);
@@ -179,7 +179,7 @@ spy.should.not.have.been.called.below(3);
 
 ## Tests
 
-Tests are written using [mocha](http://github.com/visionmedia/mocha) in the BDD itnerface.
+Tests are written using [mocha](http://github.com/visionmedia/mocha) in the BDD interface.
 Node tests can be executed using `make test`. Browser tests can be seen by opening `test/browser/index.html`.
 
 ## Contributors
