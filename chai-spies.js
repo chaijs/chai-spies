@@ -141,7 +141,7 @@
         this.assert(
             spy.called === true
           , 'expected ' + this._obj + ' to have been called'
-          , 'expected ' + this._ojb + ' to not have been called'
+          , 'expected ' + this._obj + ' to not have been called'
         );
       }
     }
