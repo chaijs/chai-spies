@@ -68,6 +68,15 @@ ee.on('some event', spy);
 // or use without original
 var spy_again = chai.spy();
 ee.on('some other event', spy_again);
+
+//or you can track object methods calls
+var array = [ 1, 2, 3 ];
+chai.spy.on(array, 'push');
+array.push(5);
+
+//or you can create spy object
+var object = chai.spy.object([ 'push', 'pop' ]);
+object.push(5);
 ```
 
 ### Assertions

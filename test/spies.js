@@ -208,6 +208,16 @@ describe('Chai Spies', function () {
     spyClean.should.have.length(0);
   });
 
+  it('spies specified object method', function() {
+    var array = [];
+
+    chai.spy.on(array, 'push');
+    array.push(1, 2);
+
+    array.push.should.be.a.spy;
+    array.should.have.length(2);
+  });
+
   describe('.with', function () {
     it('should not interfere chai with' ,function () {
       (1).should.be.with.a('number');
@@ -352,6 +362,32 @@ describe('Chai Spies', function () {
       (function () {
         spy2.should.have.been.always.called.with.exactly(4,4);
       }).should.throw(chai.AssertionError, /to have been always called with exactly/);
+    });
+  });
+
+  describe('spy object', function () {
+    it('should create spy object with specified method names', function () {
+      var object = chai.spy.object('array', [ 'push', 'pop' ]);
+
+      object.push.should.be.a.spy;
+      object.pop.should.be.a.spy;
+    });
+
+    it('should create spy object with specified method definitions', function () {
+      var object = chai.spy.object('array', {
+        push: function() {
+          return 'push';
+        }
+      });
+
+      object.push.should.be.a.spy;
+      object.push().should.equal('push');
+    });
+
+    it('should create spy object without name', function () {
+      var object = chai.spy.object([ 'push' ]);
+
+      object.push.should.be.a.spy;
     });
   });
 });
