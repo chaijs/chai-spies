@@ -123,7 +123,8 @@
      *
      *      var object = chai.spy.object('Array', [ 'push', 'pop' ]);
      *
-     * @param {Array|Object} method names or method definitions
+     * @param {String} [name] object name
+     * @param {String[]|Object} method names or method definitions
      * @returns object with spied methods
      * @api public
      */
