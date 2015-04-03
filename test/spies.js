@@ -366,16 +366,22 @@ describe('Chai Spies', function () {
   });
 
   describe('spy object', function () {
-    it('should create spy object with specified method names', function () {
+    it('should create a spy object with specified method names', function () {
       var object = chai.spy.object('array', [ 'push', 'pop' ]);
 
       object.push.should.be.a.spy;
       object.pop.should.be.a.spy;
     });
 
-    it('should create spy object with specified method definitions', function () {
+    it('should create an anonymous spy object', function () {
+      var object = chai.spy.object([ 'push' ]);
+
+      object.push.should.be.a.spy;
+    });
+
+    it('should create a spy object with specified method definitions', function () {
       var object = chai.spy.object('array', {
-        push: function() {
+        push: function () {
           return 'push';
         }
       });
@@ -384,10 +390,15 @@ describe('Chai Spies', function () {
       object.push().should.equal('push');
     });
 
-    it('should create spy object without name', function () {
-      var object = chai.spy.object([ 'push' ]);
+    it('should create an anonymous spy object with methods implementation', function () {
+      var object = chai.spy.object({
+        push: function () {
+          return 'push'
+        }
+      });
 
       object.push.should.be.a.spy;
+      object.push().should.equal('push');
     });
   });
 });
