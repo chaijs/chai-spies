@@ -97,6 +97,58 @@
     }
 
     /**
+     * # chai.spy.on (function)
+     *
+     * Wraps an object method into spy. All calls will
+     * pass through to the original function.
+     *
+     *      var spy = chai.spy.on(Array, 'isArray');
+     *
+     * @param {Object} object
+     * @param {String} method name to spy on
+     * @returns function to actually call
+     * @api public
+     */
+
+    chai.spy.on = function (object, methodName) {
+      object[methodName] = chai.spy(object[methodName]);
+
+      return object[methodName];
+    };
+
+    /**
+     * # chai.spy.object (function)
+     *
+     * Creates an object with spied methods.
+     *
+     *      var object = chai.spy.object('Array', [ 'push', 'pop' ]);
+     *
+     * @param {String} [name] object name
+     * @param {String[]|Object} method names or method definitions
+     * @returns object with spied methods
+     * @api public
+     */
+
+    chai.spy.object = function (name, methods) {
+      var defs = {};
+
+      if (name && typeof name === 'object') {
+        methods = name;
+        name = 'object';
+      }
+
+      if (methods && !Array.isArray(methods)) {
+        defs = methods;
+        methods = Object.keys(methods);
+      }
+
+      return methods.reduce(function (object, methodName) {
+        object[methodName] = chai.spy(name + '.' + methodName, defs[methodName]);
+        return object;
+      }, {});
+    };
+
+    /**
      * # spy
      *
      * Assert the the object in question is an chai.spy
@@ -182,8 +234,8 @@
       new Assertion(this._obj).to.be.spy;
       this.assert(
           this._obj.__spy.calls.length === 2
-        , 'expected ' + this._obj + ' to have been called once but got #{act}'
-        , 'expected ' + this._obj + ' to not have been called once'
+        , 'expected ' + this._obj + ' to have been called twice but got #{act}'
+        , 'expected ' + this._obj + ' to not have been called twice'
         , 2
         , this._obj.__spy.calls.length
       );
@@ -325,7 +377,7 @@
           this.assert(
               this._obj.__spy.calls.length > n
             , 'expected ' + this._obj + ' to have been called more than #{exp} times but got #{act}'
-            , 'expected ' + this._obj + ' to have been called no more than than #{exp} times but got #{act}'
+            , 'expected ' + this._obj + ' to have been called at most #{exp} times but got #{act}'
             , n
             , this._obj.__spy.calls.length
           );
@@ -354,7 +406,7 @@
 
           this.assert(
               this._obj.__spy.calls.length <  n
-            , 'expected ' + this._obj + ' to have been called less than #{exp} times but got #{act}'
+            , 'expected ' + this._obj + ' to have been called fewer than #{exp} times but got #{act}'
             , 'expected ' + this._obj + ' to have been called at least #{exp} times but got #{act}'
             , n
             , this._obj.__spy.calls.length
@@ -367,6 +419,66 @@
 
     Assertion.overwriteMethod('below', below);
     Assertion.overwriteMethod('lt', below);
+
+    /**
+     * # min (n)
+     *
+     * Assert that a spy has been called `n` or more times.
+     *
+     * @param {Number} n times
+     * @api public
+     */
+
+    function min (_super) {
+      return function (n) {
+        if ('undefined' !== typeof this._obj.__spy) {
+          new Assertion(this._obj).to.be.spy;
+
+          this.assert(
+              this._obj.__spy.calls.length >= n
+            , 'expected ' + this._obj + ' to have been called at least #{exp} times but got #{act}'
+            , 'expected ' + this._obj + ' to have been called fewer than #{exp} times but got #{act}'
+            , n
+            , this._obj.__spy.calls.length
+          );
+        } else {
+          _super.apply(this, arguments);
+        }
+      }
+    }
+
+    Assertion.overwriteMethod('min', min);
+    Assertion.overwriteMethod('least', min);
+
+    /**
+     * # max (n)
+     *
+     * Assert that a spy has been called `n` or fewer times.
+     *
+     * @param {Number} n times
+     * @api public
+     */
+
+    function max (_super) {
+      return function (n) {
+        if ('undefined' !== typeof this._obj.__spy) {
+          new Assertion(this._obj).to.be.spy;
+
+          this.assert(
+              this._obj.__spy.calls.length <=  n
+            , 'expected ' + this._obj + ' to have been called at most #{exp} times but got #{act}'
+            , 'expected ' + this._obj + ' to have been called more than #{exp} times but got #{act}'
+            , n
+            , this._obj.__spy.calls.length
+          );
+        } else {
+          _super.apply(this, arguments);
+        }
+      }
+    }
+
+    Assertion.overwriteMethod('max', max);
+    Assertion.overwriteMethod('most', max);
   };
 
 });
