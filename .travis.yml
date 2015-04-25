@@ -1,0 +1,18 @@
+sudo: false
+language: node_js
+node_js:
+- 0.1
+
+script:
+- make test
+
+deploy:
+  provider: npm
+  email:
+    secure: "CjpTiZhmHgaC8AE1ojd5KcNTm4jDPo/ypVuH7sL/ecbcomInk1yJmENGQjI8+ewpbgPvO+i4P13/531LzpS5LRXx4zru5XJMDshL/0c/vJUjb23n3ZjBALQp+zNTH9v7d7PXsQX6rZBsY9DBHv37gMV1bvWv33+JdyI4UdsZlTY="
+  api_key:
+    secure: "WApQ08Ja4r46fMGJMPKbBsRKq4BLwIWoYW/kb+ogAvkYmIEeunIIcXrSjO44kt5Jk+Z+kzgJGW9dB88zFn6EEeflEwp5YmR8hI5A7dsps34Jx5gdZWjusZrowqLo8NRHSN/+w7hbq7k/9c5YmFbtd68TLNm+Sw/FXpaPnAQ9lw8="
+  on:
+    tags: true
+    repo: chaijs/chai-spies
+    all_branches: true
