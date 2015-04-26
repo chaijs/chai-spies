@@ -193,13 +193,26 @@ Node tests can be executed using `make test`. Browser tests can be seen by openi
 
 ## Contributors
 
-     commits: 42
-     files  : 11
-     authors:
-        33  Jake Luer               78.6%
-         6  Glenn Jorde             14.3%
-         2  JamesMaroney            4.8%
-         1  Domenic Denicola        2.4%
+ project  : chai-spies
+ repo age : 3 years, 2 months
+ active   : 26 days
+ commits  : 77
+ files    : 12
+ authors  :
+    48  Jake Luer         62.3%
+     7  Glenn Jorde       9.1%
+     4  Keith Cirkel      5.2%
+     3  =                 3.9%
+     3  Sergiy Stotskiy   3.9%
+     2  JamesMaroney      2.6%
+     2  PG Herveou        2.6%
+     2  Ryckes            2.6%
+     1  Veselin Todorov   1.3%
+     1  Steffen           1.3%
+     1  Daniel Walker     1.3%
+     1  Domenic Denicola  1.3%
+     1  Andre Jaenisch    1.3%
+     1  PG                1.3%
 
 ## License
 
