@@ -87,13 +87,23 @@
         s += " }";
         return s;
       };
-      proxy.__spy = {
-          calls: []
-        , called: false
-        , name: name
-      };
 
-      return proxy;
+    /**
+     * # proxy.reset (function)
+     *
+     * Resets __spy object parameters for instantiation and reuse
+     * @returns proxy spy object
+     */
+      proxy.reset = function() {
+        this.__spy = {
+          calls: []
+          , called: false
+          , name: name
+        };
+        return this;
+      }
+
+      return proxy.reset();
     }
 
     /**
