@@ -1,5 +1,10 @@
 # Release Notes
 
+## Note
+
+As of 0.6.0, the ReleaseNotes.md file has been deprecated. [Please refer to the release notes available on Github](https://github.com/chaijs/chai-spies/releases).
+---
+
 ## 0.6.0 / 2015-04-24
 
 Added `.spy.on` and `.spy.object` to easily make new spies, for example:

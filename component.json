@@ -1,7 +1,7 @@
 {
   "name": "chai-spies",
   "repo": "chaijs/chai-spies",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Spies for the Chai assertion library.",
   "license": "MIT",
   "keywords": [
