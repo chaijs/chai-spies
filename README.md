@@ -74,6 +74,9 @@ var array = [ 1, 2, 3 ];
 chai.spy.on(array, 'push');
 array.push(5);
 
+//and you can reset the object calls
+array.push.reset();
+
 //or you can create spy object
 var object = chai.spy.object([ 'push', 'pop' ]);
 object.push(5);
