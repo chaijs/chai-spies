@@ -159,6 +159,24 @@
     };
 
     /**
+     * # chai.spy.returns (function)
+     *
+     * Creates a spy which returns static value.
+     *
+     *      var method = chai.spy.returns(true);
+     *
+     * @param {*} value static value which is returned by spy
+     * @returns new spy function which returns static value
+     * @api public
+     */
+
+    chai.spy.returns = function (value) {
+      return chai.spy(function () {
+        return value;
+      });
+    };
+
+    /**
      * # spy
      *
      * Assert the the object in question is an chai.spy
