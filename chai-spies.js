@@ -115,15 +115,19 @@
      *      var spy = chai.spy.on(Array, 'isArray');
      *
      * @param {Object} object
-     * @param {String} method name to spy on
-     * @returns function to actually call
+     * @param {...String} method names to spy on
+     * @returns passed object
      * @api public
      */
 
-    chai.spy.on = function (object, methodName) {
-      object[methodName] = chai.spy(object[methodName]);
+    chai.spy.on = function (object) {
+      var methodNames = Array.prototype.slice.call(arguments, 1);
 
-      return object[methodName];
+      methodNames.forEach(function(methodName) {
+        object[methodName] = chai.spy(object[methodName]);
+      });
+
+      return object;
     };
 
     /**

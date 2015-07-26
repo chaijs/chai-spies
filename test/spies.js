@@ -208,10 +208,8 @@ describe('Chai Spies', function () {
     spyClean.should.have.length(0);
   });
 
-  it('spies specified object method', function() {
-    var array = [];
-
-    chai.spy.on(array, 'push');
+  it('should spy specified object method', function () {
+    var array = chai.spy.on([], 'push');
     array.push(1, 2);
 
     array.push.should.be.a.spy;
@@ -224,6 +222,13 @@ describe('Chai Spies', function () {
 
     spy.should.be.a.spy;
     spy().should.equal(value);
+  });
+
+  it('should spy multiple object methods passed as array', function () {
+    var array = chai.spy.on([], 'push', 'pop');
+
+    array.push.should.be.a.spy;
+    array.pop.should.be.a.spy;
   });
 
   describe('.with', function () {
