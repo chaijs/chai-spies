@@ -2,7 +2,7 @@
   "author": "Jake Luer <jake@alogicalparadox.com> (http://alogicalparadox.com)",
   "name": "chai-spies",
   "description": "Spies for the Chai assertion library.",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/logicalparadox/chai-spies.git"
