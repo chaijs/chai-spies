@@ -1,0 +1,16 @@
+{
+  "name": "chai-spies",
+  "main": "chai-spies.js",
+  "homepage": "https://github.com/chaijs/chai-spies",
+  "authors": [
+    "Jake Luer <jake@alogicalparadox.com>"
+  ],
+  "description": "Spies for the Chai assertion library.",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "lib",
+    "support",
+    "test"
+  ]
+}
