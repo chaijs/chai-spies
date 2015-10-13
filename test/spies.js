@@ -218,6 +218,14 @@ describe('Chai Spies', function () {
     array.should.have.length(2);
   });
 
+  it('should create spy which returns static value', function() {
+    var value = {};
+    var spy = chai.spy.returns(value);
+
+    spy.should.be.a.spy;
+    spy().should.equal(value);
+  });
+
   describe('.with', function () {
     it('should not interfere chai with' ,function () {
       (1).should.be.with.a('number');
@@ -424,7 +432,7 @@ describe('Chai Spies', function () {
     it('should setup spy with default values when spy is instantiated', function() {
       var name     = 'proxy';
       var spy      = chai.spy(name);
-      
+
       spy.should.be.spy;
       spy.__spy.called.should.be.false;
       spy.__spy.calls.should.have.length(0);

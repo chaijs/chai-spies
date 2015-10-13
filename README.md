@@ -80,6 +80,11 @@ array.push.reset();
 //or you can create spy object
 var object = chai.spy.object([ 'push', 'pop' ]);
 object.push(5);
+
+// or you create spy which returns static value
+var spy = chai.spy.returns(true);
+
+spy(); // true
 ```
 
 ### Assertions
