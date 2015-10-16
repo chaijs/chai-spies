@@ -69,15 +69,19 @@ ee.on('some event', spy);
 var spy_again = chai.spy();
 ee.on('some other event', spy_again);
 
-//or you can track object methods calls
+// or you can track an object's method
 var array = [ 1, 2, 3 ];
 chai.spy.on(array, 'push');
+
+// or you can track multiple object's methods
+chai.spy.on(array, 'push', 'pop');
+
 array.push(5);
 
-//and you can reset the object calls
+// and you can reset the object calls
 array.push.reset();
 
-//or you can create spy object
+// or you can create spy object
 var object = chai.spy.object([ 'push', 'pop' ]);
 object.push(5);
 
