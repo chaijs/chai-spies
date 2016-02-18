@@ -2,6 +2,7 @@
   "author": "Jake Luer <jake@alogicalparadox.com> (http://alogicalparadox.com)",
   "name": "chai-spies",
   "description": "Spies for the Chai assertion library.",
+  "keywords": ["chai", "chai-plugin", "browser", "mocks-and-spies", "testing", "spies", "stubs", "mocks"],
   "version": "0.7.1",
   "repository": {
     "type": "git",
