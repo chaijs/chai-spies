@@ -224,6 +224,15 @@ describe('Chai Spies', function () {
     spy().should.equal(value);
   });
 
+  it('should create spy which returns multiple different values in order', function(){
+    var values = ['value1', 'value2']
+    var spy = chai.spy.returnsInOrder(values);
+
+    spy.should.be.a.spy;
+    spy().should.equal(values[0]);
+    spy().should.equal(values[1]);
+  });
+
   it('should spy multiple object methods passed as array', function () {
     var array = chai.spy.on([], 'push', 'pop');
 
