@@ -4,6 +4,7 @@
   "description": "Spies for the Chai assertion library.",
   "keywords": ["chai", "chai-plugin", "browser", "mocks-and-spies", "testing", "spies", "stubs", "mocks"],
   "version": "0.7.1",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/chaijs/chai-spies.git"
