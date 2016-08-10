@@ -299,8 +299,10 @@
 
         this.assert(
             passed === calls.length
-          , 'expected ' + this._obj + ' to have been always called with #{exp} but got ' + passed + ' out of ' + calls.length
-          , 'expected ' + this._his + ' to have not always been called with #{exp}'
+          , 'expected ' + this._obj + ' to have been always called with ' + _.inspect(args, false, 2)
+            + ', but it was actually called ' + passed + ' times with those arguments out of ' + calls.length + ' total calls'
+          , 'expected ' + this._his + ' to have not always been called with ' + _.inspect(args, false, 2)
+            + ', but it was actually called ' + passed + ' times with those arguments out of ' + calls.length + ' total calls'
           , args
         );
       } else {
@@ -317,8 +319,15 @@
 
         this.assert(
             passed > 0
-          , 'expected ' + this._obj + ' to have been called with #{exp}'
-          , 'expected ' + this._his + ' to have not been called with #{exp} but got ' + passed + ' times'
+          , 'expected ' + this._obj + ' to have been called with ' + _.inspect(args, false, 2) + ' at least once'
+            + (calls.length
+              ? ', but it was actually called ' + calls.length + ' times with:' + calls.map(function (call, i) {
+                return '\ncall #' + (i + 1) + ': ' + _.inspect(call, false, 2);
+              }).join('')
+              : ', but it was actually not called'
+            )
+          , 'expected ' + this._his + ' to have not been called with ' + _.inspect(args, false, 2)
+            + ', but it actually was called ' + passed + ' times with those arguments, out of ' + calls.length + ' total calls'
           , args
         );
       }
