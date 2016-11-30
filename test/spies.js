@@ -482,4 +482,21 @@ describe('Chai Spies', function () {
       spy.__spy.name.should.be.equal(name);
     });
   });
+
+  describe('remove method', function() {
+    it('should remove spy from object', function() {
+      var testObj = {
+        testMethod: function() { return "foo"; }
+      };
+
+      chai.spy.on(testObj, "testMethod");
+      var spy = testObj.testMethod;
+      testObj.testMethod();
+      spy.should.have.been.called.once;     // triggers when spy is installed
+
+      spy.removeSpy();
+      testObj.testMethod();
+      spy.should.have.been.called.once;    // does not trigger when spy is removed
+    });
+  });
 });
