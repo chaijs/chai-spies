@@ -208,27 +208,12 @@ describe('Chai Spies', function () {
     spyClean.should.have.length(0);
   });
 
-  it('should spy specified object method', function () {
-    var array = chai.spy.on([], 'push');
-    array.push(1, 2);
-
-    array.push.should.be.a.spy;
-    array.should.have.length(2);
-  });
-
   it('should create spy which returns static value', function() {
     var value = {};
     var spy = chai.spy.returns(value);
 
     spy.should.be.a.spy;
     spy().should.equal(value);
-  });
-
-  it('should spy multiple object methods passed as array', function () {
-    var array = chai.spy.on([], 'push', 'pop');
-
-    array.push.should.be.a.spy;
-    array.pop.should.be.a.spy;
   });
 
   describe('.with', function () {
@@ -416,44 +401,90 @@ describe('Chai Spies', function () {
     });
   });
 
-  describe('spy object', function () {
-    it('should create a spy object with specified method names', function () {
-      var object = chai.spy.object('array', [ 'push', 'pop' ]);
+  describe('spy on', function () {
+    var object;
+
+    beforeEach(function () {
+      object = []
+    });
+
+    it('should spy specified object method', function () {
+      chai.spy.on(object, 'push');
+      object.push(1, 2);
+
+      object.push.should.be.a.spy;
+      object.should.have.length(2);
+    });
+
+    it('should spy multiple object methods', function () {
+      chai.spy.on(object, ['push', 'pop']);
 
       object.push.should.be.a.spy;
       object.pop.should.be.a.spy;
     });
 
-    it('should create an anonymous spy object', function () {
-      var object = chai.spy.object([ 'push' ]);
+    it('should allow to create spy for non-existing property', function () {
+      chai.spy.on(object, 'nonExistingProperty');
 
-      object.push.should.be.a.spy;
+      object.nonExistingProperty.should.be.a.spy;
     });
 
-    it('should create a spy object with specified method definitions', function () {
-      var object = chai.spy.object('array', {
+    it('should throw if non function property is passed', function () {
+      (function () {
+        chai.spy.on(object, 'length');
+      }).should.throw(Error);
+    });
+
+    it('should throw if method is already a spy', function () {
+      object.push = chai.spy();
+
+      (function () {
+        chai.spy.on(object, 'push');
+      }).should.throw(Error)
+    });
+  });
+
+  describe('spy interface', function () {
+
+    it('should create a spy object with specified method names', function () {
+      var array = chai.spy.interface('array', ['push', 'pop']);
+
+      array.push.should.be.a.spy;
+      array.pop.should.be.a.spy;
+    });
+
+    it('should wrap each method in spy', function () {
+      var array = [];
+      var object = chai.spy.interface({
+        push: function() {
+          return array.push.apply(array, arguments);
+        }
+      });
+
+      object.push(1, 2, 3);
+
+      object.push.should.be.a.spy;
+      array.should.have.length(3);
+    });
+
+    it('should return value from spied method', function () {
+      var object = chai.spy.interface({
         push: function () {
           return 'push';
         }
       });
 
-      object.push.should.be.a.spy;
       object.push().should.equal('push');
     });
 
-    it('should create an anonymous spy object with methods implementation', function () {
-      var object = chai.spy.object({
-        push: function () {
-          return 'push'
-        }
-      });
+    it('should create a plain object', function () {
+      var object = chai.spy.interface('Object', ['method']);
 
-      object.push.should.be.a.spy;
-      object.push().should.equal('push');
+      object.should.be.an('object');
     });
   });
 
-  describe('reset method', function() {
+  describe('reset method', function () {
     it('should reset spy object values to defaults when called', function() {
       var name = 'proxy';
       var spy = chai.spy(name);
@@ -480,6 +511,41 @@ describe('Chai Spies', function () {
       spy.__spy.called.should.be.false;
       spy.__spy.calls.should.have.length(0);
       spy.__spy.name.should.be.equal(name);
+    });
+  });
+
+  describe('spy restore', function () {
+    var array;
+
+    beforeEach(function () {
+      array = [];
+      chai.spy.on(array, 'push');
+    })
+
+    it('should restore all methods of tracked objects', function () {
+      chai.spy.restore();
+
+      array.push.should.not.be.spy;
+    });
+
+    it('should restore all methods on an object', function () {
+      chai.spy.on(array, 'pop');
+      chai.spy.restore(array);
+
+      array.push.should.not.be.spy;
+      array.pop.should.not.be.spy;
+    });
+
+    it('should restore a particular method on an particular object', function () {
+      chai.spy.restore(array, 'push');
+
+      array.push.should.not.be.spy;
+    });
+
+    it('should not throw if there are not tracked objects', function () {
+      chai.spy.restore();
+
+      chai.spy.restore.should.not.throw(Error);
     });
   });
 });
