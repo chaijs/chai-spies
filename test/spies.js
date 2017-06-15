@@ -442,6 +442,23 @@ describe('Chai Spies', function () {
         chai.spy.on(object, 'push');
       }).should.throw(Error)
     });
+
+    it('should allow to overwrite method implementation', function () {
+      chai.spy.on(object, 'push', function() {
+        return 5;
+      });
+
+      object.push().should.equal(5);
+    });
+
+    it('should overwrite all methods with the same implementation', function () {
+      chai.spy.on(object, ['push', 'pop'], function() {
+        return 5;
+      });
+
+      object.push().should.equal(5);
+      object.pop().should.equal(5);
+    })
   });
 
   describe('spy interface', function () {
