@@ -501,36 +501,6 @@ describe('Chai Spies', function () {
     });
   });
 
-  describe('reset method', function () {
-    it('should reset spy object values to defaults when called', function() {
-      var name = 'proxy';
-      var spy = chai.spy(name);
-
-      spy();
-      spy.should.have.been.called();
-      spy.__spy.called.should.be.true;
-      spy.__spy.calls.should.have.length(1);
-      spy.__spy.name.should.be.equal(name);
-
-      spy.reset();
-
-      spy.should.not.have.been.called();
-      spy.__spy.called.should.be.false;
-      spy.__spy.calls.should.have.length(0);
-      spy.__spy.name.should.be.equal(name);
-    });
-
-    it('should setup spy with default values when spy is instantiated', function() {
-      var name     = 'proxy';
-      var spy      = chai.spy(name);
-
-      spy.should.be.spy;
-      spy.__spy.called.should.be.false;
-      spy.__spy.calls.should.have.length(0);
-      spy.__spy.name.should.be.equal(name);
-    });
-  });
-
   describe('spy restore', function () {
     var array;
 
