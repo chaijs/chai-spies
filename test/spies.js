@@ -272,6 +272,83 @@ describe('Chai Spies', function () {
     });
   });
 
+  describe('.first.called.with(arg, ...)', function() {
+    it('should pass only when called with the arguments the first time', function() {
+      var spy = chai.spy();
+      spy(1, 2, 3)
+      spy(3, 4, 5)
+      spy.should.have.been.first.called.with(3, 2, 1);
+      spy.should.have.been.first.called.with(1, 2, 3)
+      spy.should.have.been.first.called.with(1, 2);
+      spy.should.not.have.been.first.called.with(4);
+      (function () {
+        spy.should.have.been.first.called.with(1, 2, 4)
+      }).should.throw(chai.AssertionError, /have been called at the first time with/);
+      (function () {
+        spy.should.have.not.been.first.called.with(1, 2);
+      }).should.throw(chai.AssertionError, /have not been called at the first time with/);
+    });
+  });
+
+  describe('.second.called.with(arg, ...)', function() {
+    it('should pass only when called with the arguments the second time', function() {
+      var spy = chai.spy();
+      spy(1, 2, 3)
+      spy(3, 4, 5)
+      spy.should.have.been.second.called.with(3, 4, 5)
+      spy.should.have.been.second.called.with(4, 5);
+      spy.should.not.have.been.second.called.with(1);
+      (function () {
+        spy.should.have.been.second.called.with(3, 4, 1)
+      }).should.throw(chai.AssertionError, /have been called at the second time with/);
+      (function () {
+        spy.should.have.not.been.second.called.with(4, 5);
+      }).should.throw(chai.AssertionError, /have not been called at the second time with/);
+    });
+  });
+
+  describe('.third.called.with(arg, ...)', function() {
+    it('should pass only when called with the arguments the third time', function() {
+      var spy = chai.spy();
+      spy(1, 2, 3)
+      spy(3, 4, 5)
+      spy(5, 6, 7)
+      spy.should.have.been.third.called.with(5, 6, 7)
+      spy.should.have.been.third.called.with(6, 5);
+      spy.should.not.have.been.third.called.with(1);
+      (function () {
+        spy.should.have.been.third.called.with(5, 6, 1)
+      }).should.throw(chai.AssertionError, /have been called at the third time with/);
+      (function () {
+        spy.should.have.not.been.third.called.with(6, 5);
+      }).should.throw(chai.AssertionError, /have not been called at the third time with/);
+    });
+  });
+
+  describe('.nth(n).called.with(arg, ...)', function() {
+    it('should pass only when called with the arguments the nth time its called', function() {
+      var spy = chai.spy();
+      spy(0);
+      spy(1);
+      spy(2);
+      spy(3);
+      spy(4, 6, 7);
+      spy(5, 8, 9);
+      spy.should.on.nth(5).be.called.with(4);
+      spy.should.on.nth(6).be.called.with(8, 5);
+      spy.should.not.on.nth(5).be.called.with(3, 4);
+      (function () {
+        spy.should.on.nth(5).be.called.with(3);
+      }).should.throw(chai.AssertionError, /have been called at the 5th time with/);
+      (function () {
+        spy.should.not.on.nth(6).be.called.with(5);
+      }).should.throw(chai.AssertionError, /have not been called at the 6th time with/);
+      (function () {
+        spy.should.on.nth(7).be.called.with(10);
+      }).should.throw(chai.AssertionError, /to have been called at least 7 times but got 6/);
+    });
+  });
+
   describe('.always.with(arg, ...)', function () {
     it('should pass when called with an argument', function () {
       var spy = chai.spy();
@@ -354,6 +431,68 @@ describe('Chai Spies', function () {
       spy.should.not.have.been.called.with.exactly(1);
       spy.should.not.have.been.called.with.exactly(1, 2);
       spy.should.not.have.been.called.with.exactly(1, 1, 1);
+    });
+  });
+
+  describe('.nth(...).with.exactly(arg, ...)', function () {
+    it('Should work with the shorthand first for nth(1)', function() {
+      var spy = chai.spy();
+      spy(1, 2, 3);
+      spy(3, 4, 5);
+      spy.should.have.been.first.called.with.exactly(1, 2, 3);
+      spy.should.have.been.not.first.called.with.exactly(3, 4, 5);
+      spy.should.have.been.not.first.called.with.exactly(3);
+      (function() {
+        spy.should.have.been.first.called.with.exactly(3)
+      }).should.throw(chai.AssertionError);
+      (function() {
+        spy.should.have.not.been.first.called.with.exactly(1, 2, 3)
+      }).should.throw(chai.AssertionError);
+    });
+    it('Should work with the shorthand second for nth(2)', function() {
+      var spy = chai.spy();
+      spy(1, 2, 3);
+      spy(3, 4, 5);
+      spy.should.have.been.second.called.with.exactly(3, 4, 5);
+      spy.should.have.been.not.second.called.with.exactly(1, 2, 3);
+      spy.should.have.been.not.second.called.with.exactly(4);
+      (function() {
+        spy.should.have.been.second.called.with.exactly(4, 5)
+      }).should.throw(chai.AssertionError);
+      (function() {
+        spy.should.have.not.been.second.called.with.exactly(3, 4, 5)
+      }).should.throw(chai.AssertionError);
+    });
+    it('Should work with the shorthand third for nth(3)', function() {
+      var spy = chai.spy();
+      spy(1, 2, 3);
+      spy(3, 4, 5);
+      spy(5, 6, 7);
+      spy.should.have.been.third.called.with.exactly(5, 6, 7);
+      spy.should.have.been.not.third.called.with.exactly(5);
+      spy.should.have.been.not.third.called.with.exactly(6, 5, 7);
+      (function() {
+        spy.should.have.been.third.called.with.exactly(7, 6, 5)
+      }).should.throw(chai.AssertionError);
+      (function() {
+        spy.should.have.not.been.third.called.with.exactly(5, 6, 7)
+      }).should.throw(chai.AssertionError);
+    });
+    it('Should work with general nth(...) flag', function() {
+      var spy = chai.spy();
+      spy(1, 2, 3);
+      spy(3, 4, 5);
+      spy(5, 6, 7);
+      spy(7, 8, 9);
+      spy.should.on.nth(4).be.called.with.exactly(7, 8, 9);
+      spy.should.not.on.nth(4).be.called.with.exactly(9, 8, 7);
+      spy.should.not.on.nth(4).be.called.with.exactly(7, 8);
+      (function() {
+        spy.should.on.nth(4).be.called.with.exactly(7, 6, 5);
+      }).should.throw(chai.AssertionError);
+      (function() {
+        spy.should.not.on.nth(4).be.called.with.exactly(7, 8, 9);
+      }).should.throw(chai.AssertionError);
     });
   });
 

@@ -48,7 +48,7 @@ var spy = function (chai, _) {
    *      const array = []
    *      const spy = chai.spy.sandbox();
    *      const [push, pop] = spy.on(array, ['push', 'pop']);
-   *      
+   *
    *      spy.on(array, 'push', returns => 1)
    *
    * @param {Object} object
@@ -226,7 +226,7 @@ var spy = function (chai, _) {
       s += " }";
       return s;
     };
-    
+
     proxy.__spy = {
       calls: []
       , called: false
@@ -439,41 +439,111 @@ var spy = function (chai, _) {
   });
 
   /**
+   * # nth call (spy, n, arguments)
+   *
+   * Asserts that the nth call of the spy has been called with
+   *
+   */
+
+  function nthCallWith(spy, n, expArgs) {
+    if (spy.calls.length < n) return false;
+
+    var actArgs = spy.calls[n].slice()
+      , passed = 0;
+
+    expArgs.forEach(function (expArg) {
+      for (var i = 0; i < actArgs.length; i++) {
+        if (_.eql(actArgs[i], expArg)) {
+          passed++;
+          actArgs.splice(i, 1);
+          break;
+        }
+      }
+    });
+
+    return passed === expArgs.length
+  }
+
+  function numberOfCallsWith(spy, expArgs) {
+    var found = 0
+      , calls = spy.calls;
+
+    for (var i = 0; i < calls.length; i++) {
+      if (nthCallWith(spy, i, expArgs)) {
+        found++;
+      }
+    }
+
+    return found;
+  }
+
+  Assertion.addProperty('first', function () {
+    if ('undefined' !== this._obj.__spy) {
+      _.flag(this, 'spy nth call with', 1);
+    }
+  });
+
+  Assertion.addProperty('second', function () {
+    if ('undefined' !== this._obj.__spy) {
+      _.flag(this, 'spy nth call with', 2);
+    }
+  });
+
+  Assertion.addProperty('third', function () {
+    if ('undefined' !== this._obj.__spy) {
+      _.flag(this, 'spy nth call with', 3);
+    }
+  });
+
+  Assertion.addProperty('on');
+
+  Assertion.addChainableMethod('nth', function (n) {
+    if ('undefined' !== this._obj.__spy) {
+      _.flag(this, 'spy nth call with', n);
+    }
+  });
+
+  function generateOrdinalNumber(n) {
+    if (n === 1) return 'first';
+    if (n === 2) return 'second';
+    if (n === 3) return 'third';
+    return n + 'th';
+  }
+
+  /**
    * ### .with
    *
    */
 
-  function assertWith () {
+  function assertWith() {
     new Assertion(this._obj).to.be.spy;
     var expArgs = [].slice.call(arguments, 0)
-      , calls = this._obj.__spy.calls
+      , spy = this._obj.__spy
+      , calls = spy.calls
       , always = _.flag(this, 'spy always')
-      , passed = 0;
-
-    calls.forEach(function (call) {
-      var actArgs = call.slice()
-        , found = 0;
-
-      expArgs.forEach(function (expArg) {
-        for (var i = 0; i < actArgs.length; i++) {
-          if (_.eql(actArgs[i], expArg)) {
-            found++;
-            actArgs.splice(i, 1);
-            break;
-          }
-        }
-      });
-      if (found === expArgs.length) passed++;
-    });
+      , nthCall = _.flag(this, 'spy nth call with');
 
     if (always) {
+      var passed = numberOfCallsWith(spy, expArgs);
       this.assert(
           passed === calls.length
         , 'expected ' + this._obj + ' to have been always called with #{exp} but got ' + passed + ' out of ' + calls.length
         , 'expected ' + this._obj + ' to have not always been called with #{exp}'
         , expArgs
       );
+    } else if (nthCall) {
+      var ordinalNumber = generateOrdinalNumber(nthCall),
+          actArgs = calls[nthCall - 1];
+      new Assertion(this._obj).to.be.have.been.called.min(nthCall);
+      this.assert(
+          nthCallWith(spy, nthCall - 1, expArgs)
+        , 'expected ' + this._obj + ' to have been called at the ' + ordinalNumber + ' time with #{exp} but got #{act}'
+        , 'expected ' + this._obj + ' to have not been called at the ' + ordinalNumber + ' time with #{exp}'
+        , expArgs
+        , actArgs
+      );
     } else {
+      var passed = numberOfCallsWith(spy, expArgs);
       this.assert(
           passed > 0
         , 'expected ' + this._obj + ' to have been called with #{exp}'
@@ -512,6 +582,7 @@ var spy = function (chai, _) {
       , _with = _.flag(this, 'spy with')
       , args = [].slice.call(arguments, 0)
       , calls = this._obj.__spy.calls
+      , nthCall = _.flag(this, 'spy nth call with')
       , passed;
 
     if (always && _with) {
@@ -526,6 +597,17 @@ var spy = function (chai, _) {
         , 'expected ' + this._obj + ' to have been always called with exactly #{exp} but got ' + passed + ' out of ' + calls.length
         , 'expected ' + this._obj + ' to have not always been called with exactly #{exp}'
         , args
+      );
+    } else if(_with && nthCall) {
+      var ordinalNumber = generateOrdinalNumber(nthCall),
+          actArgs = calls[nthCall - 1];
+      new Assertion(this._obj).to.be.have.been.called.min(nthCall);
+      this.assert(
+          _.eql(actArgs, args)
+        , 'expected ' + this._obj + ' to have been called at the ' + ordinalNumber + ' time with exactly #{exp} but got #{act}'
+        , 'expected ' + this._obj + ' to have not been called at the ' + ordinalNumber + ' time with exactly #{exp}'
+        , args
+        , actArgs
       );
     } else if (_with) {
       passed = 0;
