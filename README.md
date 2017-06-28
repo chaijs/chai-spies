@@ -175,6 +175,37 @@ expect(spy).to.have.been.called.always.with.exactly('foo');
 spy.should.have.been.called.always.with.exactly('foo');
 ```
 
+#### .nth(n).called.with
+
+Asserts that the nth call of the spy has been made with the list of arguments provided. This assertion comes with other three flavors:
+
+* .first.called.with
+* .second.called.with
+* .third.called.with
+
+```js
+spy('foo');
+spy('bar');
+spy('baz');
+spy('foobar');
+expect(spy).to.have.been.first.called.with('foo');
+spy.should.have.been.first.called.with('foo');
+expect(spy).on.nth(5).be.called.with('foobar');
+spy.should.on.nth(5).be.called.with('foobar');
+```
+
+These assertions requires the spy to be called at least the
+number of times required, for example
+
+```js
+spy('foo');
+spy('bar');
+expect(spy).to.have.been.third.called.with('baz');
+spy.should.have.been.third.called.with('baz');
+```
+
+Won't pass because the spy has not been called a third time.
+
 #### .once
 
 Assert that a spy has been called exactly once.
