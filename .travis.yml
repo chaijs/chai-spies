@@ -6,7 +6,7 @@ node_js:
 - stable
 
 script:
-- make test
+- npm run test.only
 
 deploy:
   provider: npm

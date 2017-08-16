@@ -1,31 +1,33 @@
-/*!
- * chai-spies :: browser build script
- * Copyright (c) 2012 Jake Luer <jake@alogicalparadox.com>
- * MIT Licensed
- */
+import commonjs from 'rollup-plugin-commonjs';
 
-/*!
- * Script dependancies
- */
+const MODULE_NAME = '__chaiSpies__'
 
-var folio = require('folio');
+function injectChaiPresenceCheck() {
+  return {
+    name: 'chai-presence-check',
 
-/*!
- * Folio Definition
- */
+    transformBundle(source, options) {
+      return source.replace(
+        new RegExp(`global.${MODULE_NAME} *= *factory\\(\\)`),
+        [
+          '(function() {',
+            'if (!global.chai) throw new Error("Chai cannot be found in current scope.");',
+            'global.chai.use(factory());',
+          '})()'
+        ].join('')
+      )
+    }
+  }
+}
 
-folio('chai-spies')
-  .root(__dirname, '..')
-  .use('reader')
-    .file('./lib/spy.js')
-    .pop()
-  .use('indent')
-    .line('  ')
-    .pop()
-  .use('wrapper')
-    .template('chai-exports')
-    .pop()
-  .use('save')
-    .file('./chai-spies.js')
-    .pop()
-  .compile();
+export default {
+  entry: 'lib/spy.js',
+  dest: './chai-spies.js',
+  format: 'umd',
+  exports: 'default',
+  moduleName: MODULE_NAME,
+  plugins: [
+    commonjs(),
+    injectChaiPresenceCheck()
+  ]
+};

@@ -2,25 +2,39 @@
   "author": "Jake Luer <jake@alogicalparadox.com> (http://alogicalparadox.com)",
   "name": "chai-spies",
   "description": "Spies for the Chai assertion library.",
-  "keywords": ["chai", "chai-plugin", "browser", "mocks-and-spies", "testing", "spies", "stubs", "mocks"],
+  "keywords": [
+    "chai",
+    "chai-plugin",
+    "browser",
+    "mocks-and-spies",
+    "testing",
+    "spies",
+    "stubs",
+    "mocks"
+  ],
   "version": "0.7.1",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/chaijs/chai-spies.git"
   },
-  "main": "./index",
+  "main": "./index.js",
+  "browser": "./chai-spies.js",
   "scripts": {
-    "test": "make test"
+    "pretest": "npm run build",
+    "test.only": "mocha --reporter spec test/*.js",
+    "test": "npm run test.only",
+    "build": "rollup -c support/compile.js"
   },
   "engines": {
     "node": ">= 0.4.0"
   },
   "dependencies": {},
   "devDependencies": {
-    "mocha": "*",
     "chai": "*",
-    "folio": "0.3.x"
+    "mocha": "*",
+    "rollup": "^0.47.4",
+    "rollup-plugin-commonjs": "^8.1.0"
   },
   "optionalDependencies": {}
 }

@@ -43,10 +43,7 @@ var should = chai.should()
 
 ## Building for the Browser
 
-If you are developing an addon for chai, one thing you might find useful is the contents of the `support` folder.
-This directly contains everything that is needed to package all js files in a directory for browser use. Provided
-there are no external dependencies, everything will be packaged and wrapped with a CommonJS `require` style loader
-by [folio](https://github.com/logicalparadox/folio), a small JS packaging tool. Please consult the comments in `support/compile.js`.
+Currently this package uses [rollup](https://rollupjs.org/) to bundle source code. Just use `npm run build` to build browser version.
 
 ## Chai Spies Api Reference
 
@@ -257,7 +254,7 @@ spy.should.not.have.been.called.below(3);
 ## Tests
 
 Tests are written using [mocha](http://github.com/visionmedia/mocha) in the BDD interface.
-Node tests can be executed using `make test`. Browser tests can be seen by opening `test/browser/index.html`.
+Node tests can be executed using `npm test`. Browser tests can be seen by opening `test/browser/index.html`.
 
 ## Contributors
 
