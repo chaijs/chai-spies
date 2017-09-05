@@ -1,6 +1,6 @@
 # Chai Spies
 
-This is an addon plugin for the [chai](http://github.com/logicalparadox/chai) assertion library. It provides the
+This is an addon plugin for the [chai](https://github.com/chaijs/chai) assertion library. It provides the
 most basic function spy ability and tests. Though useful for small modules, you are probably going to want something
 more robust. Check out [jack](http://github.com/vesln/jack) for a full featured mock/stub/spy assertion library for use with chai.
 
