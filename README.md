@@ -78,7 +78,7 @@ array.push(5);
 array.push.reset();
 
 // or you can create spy object
-var object = chai.spy.object([ 'push', 'pop' ]);
+var object = chai.spy.interface([ 'push', 'pop' ]);
 object.push(5);
 
 // or you create spy which returns static value
