@@ -21,7 +21,8 @@ var spy = function (chai, _) {
     , i = _.inspect
     , STATE_KEY = typeof Symbol === 'undefined' ? '__state' : Symbol('state')
     , spyAmount = 0
-    , DEFAULT_SANDBOX = new Sandbox();
+    , DEFAULT_SANDBOX = new Sandbox()
+    , noop = function () {};
 
   /**
    * # Sandbox constructor (function)
@@ -189,7 +190,7 @@ var spy = function (chai, _) {
       name = undefined;
     }
 
-    fn = fn || function () {};
+    fn = fn || noop;
 
     function makeProxy (length, fn) {
       switch (length) {
@@ -224,7 +225,7 @@ var spy = function (chai, _) {
       if (l > 0)
         s += ", " + l + " call" + (l > 1 ? 's' : '');
       s += " }";
-      return s;
+      return s + (fn !== noop ? "\n" + fn.toString() : '');
     };
 
     proxy.__spy = {

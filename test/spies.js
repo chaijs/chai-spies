@@ -29,21 +29,32 @@ describe('Chai Spies', function () {
     it('should print out nice', function() {
       chai.spy().toString().should.equal("{ Spy }");
     });
+
     it('should show the name', function() {
       chai.spy('Nikita').toString().should.equal("{ Spy 'Nikita' }");
     });
+
     it('should expose number of invokations', function() {
       var spy = chai.spy()
       spy(); // 1
       spy(); // 2
       spy.toString().should.equal("{ Spy, 2 calls }");
     });
+
     it('should expose name and number of invokations', function() {
       var spy = chai.spy('Nikita')
       spy(); // 1
       spy.toString().should.equal("{ Spy 'Nikita', 1 call }");
     });
 
+    it('should expose original function `toString` representation', function() {
+      function test(a, b, c) {
+        return a + b + c;
+      }
+
+      var spy = chai.spy(test);
+      spy.toString().should.equal("{ Spy }\n" + test.toString());
+    });
   });
 
   it('should return the value of the mock function', function() {
