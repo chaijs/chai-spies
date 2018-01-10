@@ -2,9 +2,9 @@ import commonjs from 'rollup-plugin-commonjs';
 
 const MODULE_NAME = '__chaiSpies__'
 
-function injectChaiPresenceCheck() {
+function replaceGlobalExportWithChaiUse() {
   return {
-    name: 'chai-presence-check',
+    name: 'chai-use',
 
     transformBundle(source, options) {
       return source.replace(
@@ -21,13 +21,14 @@ function injectChaiPresenceCheck() {
 }
 
 export default {
-  entry: 'lib/spy.js',
-  dest: './chai-spies.js',
-  format: 'umd',
-  exports: 'default',
-  moduleName: MODULE_NAME,
+  input: 'lib/spy.js',
+  output: {
+    format: 'umd',
+    name: MODULE_NAME,
+    file: './chai-spies.js'
+  },
   plugins: [
     commonjs(),
-    injectChaiPresenceCheck()
+    replaceGlobalExportWithChaiUse()
   ]
 };
