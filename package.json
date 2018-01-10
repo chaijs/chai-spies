@@ -29,10 +29,13 @@
   "engines": {
     "node": ">= 4.0.0"
   },
+  "peerDependencies": {
+    "chai": "*"
+  },
   "devDependencies": {
     "chai": "*",
     "mocha": "*",
-    "rollup": "^0.47.4",
-    "rollup-plugin-commonjs": "^8.1.0"
+    "rollup": "^0.53.3",
+    "rollup-plugin-commonjs": "^8.2.6"
   }
 }
