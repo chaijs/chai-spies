@@ -31,12 +31,12 @@ namespace and automatically get used.
 If you are using node, here is a useful bit.
 
 ```js
-var chai = require('chai')
+const chai = require('chai')
   , spies = require('chai-spies');
 
 chai.use(spies);
 
-var should = chai.should()
+const should = chai.should()
   , expect = chai.expect;
 ```
 
@@ -56,35 +56,121 @@ function original () {
   // do something cool
 }
 
-var spy = chai.spy(original);
+const spy = chai.spy(original);
 
 // then use in place of original
 ee.on('some event', spy);
 
 // or use without original
-var spy_again = chai.spy();
-ee.on('some other event', spy_again);
+const spyAgain = chai.spy();
+ee.on('some other event', spyAgain);
+```
 
-// or you can track an object's method
-var array = [ 1, 2, 3 ];
+#### spy.on
+
+`spy.on` allows to add spy on existing method of an object
+
+```js
+const array = [1, 2, 3];
+
 chai.spy.on(array, 'push');
 
-// or you can track multiple object's methods
-chai.spy.on(array, 'push', 'pop');
+// or multiple spies
+chai.spy.on(array, ['push', 'pop']);
+```
 
-array.push(5);
+It's also possible to provide custom implementation of spied method:
 
-// and you can reset the object calls
-array.push.reset();
+```js
+chai.spy.on(array, 'push', function (...items) {
+  // custom implementation of `push` method
+});
+```
 
-// or you can create spy object
-var object = chai.spy.object([ 'push', 'pop' ]);
-object.push(5);
+Using arrow functions, it's also easy to replace method implementation with constant:
 
-// or you create spy which returns static value
-var spy = chai.spy.returns(true);
+```js
+chai.spy.on(array, 'push', () => 5);
 
-spy(); // true
+// or more readable :)
+chai.spy.on(array, 'push', returns => 5);
+```
+
+#### spy.interface
+
+This method allows to create mock (or spy object), basically an interface with fake implementation or without implementation at all:
+
+```js
+const eventBus = chai.spy.interface(['on', 'off', 'emit']);
+
+// with implementation
+const arrayLike = chai.spy.interface({
+  push(item) {
+    this.__items = this.__items || [];
+    return this.__items.push(item)
+  },
+  // other methods
+});
+
+arrayLike.push(5);
+```
+
+#### spy.returns (Deprecated)
+
+`chai.spy.returns` is just a simple helper which creates a function that returns constant:
+
+```js
+const returnTrue = chai.spy.returns(true);
+
+returnTrue(); // true
+```
+
+Better to use arrow function:
+
+```js
+const returnTrue = chai.spy(returns => true);
+```
+
+### Sandboxes
+
+Sandbox is a set of spies. Sandbox allows to track methods on objects and restore original methods with on `restore` call.
+To create sandbox:
+
+```js
+const sandbox = chai.spy.sandbox();
+
+describe('Array', () => {
+  let array;
+
+  beforeEach(() => {
+    array = [];
+    sandbox.on(array, ['push', 'pop']);
+  });
+
+  afterEach(() => {
+    sandbox.restore(); // restores original methods on `array`
+  })
+
+  it('allows to add items', () => {
+    array.push(1);
+
+    expect(array.push).to.have.been.called.with(1);
+  });
+});
+```
+
+`chai.spy.on` and `chai.spy.restore` are bound to default sandbox.
+So to restore all methods spied by `chai.spy.on`, just call `chai.spy.restore()` (without arguments).
+
+`restore` method accepts 2 optional arguments: object to restore and method or methods to restore. So, this calls are also valid:
+
+```js
+const array = [1, 2, 3];
+
+chai.spy.on(array, ['push', 'pop']);
+
+chai.spy.restore(array) // restores all methods on object
+chai.spy.restore(array, 'push') // restores only `push` method
 ```
 
 ### Assertions
