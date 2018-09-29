@@ -98,18 +98,19 @@ chai.spy.on(array, 'push', returns => 5);
 
 #### spy.interface
 
-This method allows to create mock (or spy object), basically an interface with fake implementation or without implementation at all:
+This method creates a mock (or spy object): an interface with spies on each of the object's methods. The object's methods have either fake implementations or no implementation.
 
 ```js
-const eventBus = chai.spy.interface(['on', 'off', 'emit']);
+// with no implementation
+const arrayLike = chai.spy.interface('arrayLike', ['push', 'pop', 'filter']);
 
-// with implementation
+// with fake implementation
 const arrayLike = chai.spy.interface({
   push(item) {
     this.__items = this.__items || [];
     return this.__items.push(item)
   },
-  // other methods
+  // other method implementations
 });
 
 arrayLike.push(5);
