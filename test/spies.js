@@ -652,31 +652,46 @@ describe('Chai Spies', function () {
   });
 
   describe('spy restore', function () {
-    var array;
+    var array, array2;
 
     beforeEach(function () {
       array = [];
+      array2 = [];
+      chai.spy.on(array2, 'push');
+      chai.spy.on(array, 'shift');
       chai.spy.on(array, 'push');
-    })
+    });
+
+    afterEach(function () {
+      chai.spy.restore();
+    });
 
     it('should restore all methods of tracked objects', function () {
       chai.spy.restore();
 
+      array.shift.should.not.be.spy;
       array.push.should.not.be.spy;
+      array2.push.should.not.be.spy;
     });
 
     it('should restore all methods on an object', function () {
       chai.spy.on(array, 'pop');
       chai.spy.restore(array);
 
+      array.shift.should.not.be.spy;
       array.push.should.not.be.spy;
       array.pop.should.not.be.spy;
+      array2.push.should.be.spy;
     });
 
     it('should restore a particular method on an particular object', function () {
+      chai.spy.on(array, 'pop');
       chai.spy.restore(array, 'push');
 
       array.push.should.not.be.spy;
+      array.pop.should.be.spy;
+      array.shift.should.be.spy;
+      array2.push.should.be.spy;
     });
 
     it('should not throw if there are not tracked objects', function () {
