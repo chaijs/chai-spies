@@ -40,6 +40,17 @@ const should = chai.should()
   , expect = chai.expect;
 ```
 
+## TypeScript Setup
+
+If using TypeScript, this is how you can import `chai-spies`.
+
+```
+import { expect } from 'chai';
+import spies from 'chai-spies';
+chai.use(spies);
+```
+
+
 ## Building for the Browser
 
 Currently this package uses [rollup](https://rollupjs.org/) to bundle source code. Just use `npm run build` to build browser version.
