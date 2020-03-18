@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "chai": "*",
-    "mocha": "*",
+    "mocha": ">=7.1.1",
     "rollup": "^0.57.0",
     "rollup-plugin-commonjs": "^8.2.6"
   }
