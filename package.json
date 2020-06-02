@@ -24,7 +24,7 @@
     "pretest": "npm run build",
     "test.only": "mocha --reporter spec test/*.js",
     "test": "npm run test.only",
-    "build": "rollup -c support/compile.js"
+    "build": "rollup -c"
   },
   "engines": {
     "node": ">= 4.0.0"
@@ -33,9 +33,9 @@
     "chai": "*"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.1.0",
     "chai": "*",
     "mocha": "*",
-    "rollup": "^0.57.0",
-    "rollup-plugin-commonjs": "^8.2.6"
+    "rollup": "^2.10.0"
   }
 }
