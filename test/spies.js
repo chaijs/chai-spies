@@ -227,6 +227,35 @@ describe('Chai Spies', function () {
     spy().should.equal(value);
   });
 
+  it('should create spy which calls back with static values', function() {
+    var value1 = 7;
+    var value2 = true;
+    var value3 = {id:4};
+    var spy = chai.spy.callsBackWith(value1, value2, value3);
+
+    var callback = function(arg1, arg2, arg3) {
+      arg1.should.equal(value1);
+      arg2.should.equal(value2);
+      arg3.should.equal(value3);
+    };
+
+    spy.should.be.a.spy;
+    spy(123, false, callback);
+  });
+
+  it('should know if final argument is a function', function() {
+    var value = 'foo';
+    var spy = chai.spy.callsBackWith(value);
+
+    spy.should.be.a.spy;
+    (function(){
+      spy(3);
+    }).should.throw(chai.AssertionError);
+    (function(){
+      spy();
+    }).should.throw(chai.AssertionError);
+  });
+
   describe('.with', function () {
     it('should not interfere chai with' ,function () {
       (1).should.be.with.a('number');
