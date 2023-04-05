@@ -87,7 +87,7 @@
         object: object
         , methodName: methodName
         , originalMethod: object[methodName]
-        , isOwnMethod: object.hasOwnProperty(methodName)
+        , isOwnMethod: Object.hasOwnProperty.call(object, methodName)
       };
       object[methodName] = method;
 
