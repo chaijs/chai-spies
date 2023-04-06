@@ -609,6 +609,16 @@ describe('Chai Spies', function () {
       object.push().should.equal(5);
       object.pop().should.equal(5);
     })
+
+    it('should work with a nullish prototype', function() {
+      var nullish = Object.create(null);
+      nullish.method = function() {
+        return 1;
+      };
+      chai.spy.on(nullish, 'method');
+      nullish.method().should.equal(1);
+    });
+
   });
 
   describe('spy interface', function () {
