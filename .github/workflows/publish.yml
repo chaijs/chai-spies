@@ -16,7 +16,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: npm
       - run: npm install -g npm@latest
-      - run: npm ci
+      - run: npm i
       - run: npm test
       - run: npm version ${TAG_NAME} --git-tag-version=false
         env:
