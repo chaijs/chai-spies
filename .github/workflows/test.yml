@@ -15,7 +15,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: npm
-    - run: npm ci
+    - run: npm i
     - run: npm run test.only
       env:
         CI: true
