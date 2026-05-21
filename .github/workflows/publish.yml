@@ -13,15 +13,18 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version: 25
           registry-url: https://registry.npmjs.org/
           cache: npm
+      - run: npm install -g npm@~11.10.0 # Work-around for https://github.com/npm/cli/issues/9151#issuecomment-4131466208
       - run: npm install -g npm@latest
       - run: npm i
       - run: npm test
       - run: npm version ${TAG_NAME} --git-tag-version=false
         env:
           TAG_NAME: ${{ github.event.release.tag_name }}
-      - run: npm --ignore-scripts publish --provenance --access public
+      - run: npm --ignore-scripts stage publish --provenance --access public
