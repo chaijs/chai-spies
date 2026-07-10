@@ -143,6 +143,15 @@ Better to use arrow function:
 const returnTrue = chai.spy(returns => true);
 ```
 
+### spy.callsBackWith
+`chai.spy.callsBackWith` is a helper which creates a function that calls the provided callback function with the provided values:
+
+```js
+// or you can create a spy which calls back with some values
+const spy = chai.spy.callsBackWith(new Error('foo'));
+const spy = chai.spy.callsBackWith(null, {id: 12});
+````
+
 ### Sandboxes
 
 Sandbox is a set of spies. Sandbox allows to track methods on objects and restore original methods with on `restore` call.
